@@ -71,7 +71,7 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
 }
 
 /**
- * config menu with given params // TODO
+ * config menu with given params
  */
 const menuParamRegex = /(?::)([\s\S]+?)((?=\/)|$)/g;
 export function configureDynamicParamsMenu(menu: Menu, params: RouteParams) {

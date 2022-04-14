@@ -25,6 +25,7 @@
 <script lang="ts" setup>
   import type { PropType } from 'vue';
   import { ref } from 'vue';
+  import { isNil } from 'lodash-es';
   // component
   import { Skeleton } from 'ant-design-vue';
   import { CollapseTransition } from '/@/components/Transition';
@@ -36,29 +37,25 @@
 
   const props = defineProps({
     title: { type: String, default: '' },
-    /**
-     * 显示加载骨架屏
-     */
     loading: { type: Boolean },
     /**
-     *  Can it be expanded  是否可以展开，为true显示折叠按钮
+     *  Can it be expanded
      */
     canExpan: { type: Boolean, default: true },
     /**
-     * Warm reminder on the right side of the title 标题右侧温馨提醒
+     * Warm reminder on the right side of the title
      */
     helpMessage: {
       type: [Array, String] as PropType<string[] | string>,
       default: '',
     },
     /**
-     * 展开收缩的时候是否触发 window.resize
      * Whether to trigger window.resize when expanding and contracting,
      * Can adapt to tables and forms, when the form shrinks, the form triggers resize to adapt to the height
      */
     triggerWindowResize: { type: Boolean },
     /**
-     * Delayed loading time 延迟加载时间
+     * Delayed loading time
      */
     lazyTime: { type: Number, default: 0 },
   });
@@ -70,13 +67,17 @@
   /**
    * @description: Handling development events
    */
-  function handleExpand() {
-    show.value = !show.value;
+  function handleExpand(val: boolean) {
+    show.value = isNil(val) ? !show.value : val;
     if (props.triggerWindowResize) {
       // 200 milliseconds here is because the expansion has animation,
       useTimeoutFn(triggerWindowResize, 200);
     }
   }
+
+  defineExpose({
+    handleExpand,
+  });
 </script>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-collapse-container';

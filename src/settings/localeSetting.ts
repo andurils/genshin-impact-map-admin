@@ -7,13 +7,12 @@ export const LOCALE: { [key: string]: LocaleType } = {
 };
 
 export const localeSetting: LocaleSetting = {
-  // Whether to show the language picker 是否显示语言选择器
   showPicker: true,
-  // Locale 当前语言
+  // Locale
   locale: LOCALE.ZH_CN,
-  // Default locale  默认语言
+  // Default locale
   fallback: LOCALE.ZH_CN,
-  // available Locales 可用语言
+  // available Locales
   availableLocales: [LOCALE.ZH_CN, LOCALE.EN_US],
 };
 

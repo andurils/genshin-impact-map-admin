@@ -1,6 +1,3 @@
-// 对 antv 的 table 组件进行封装
-// https://vvbin.cn/doc-next/components/table.html
-
 export { default as BasicTable } from './src/BasicTable.vue';
 export { default as TableAction } from './src/components/TableAction.vue';
 export { default as EditTableHeaderIcon } from './src/components/EditTableHeaderIcon.vue';

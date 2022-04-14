@@ -138,9 +138,6 @@
         );
       }
 
-      /**
-       * 菜单组件中获取菜单配置渲染
-       */
       function renderMenu() {
         const { menus, ...menuProps } = unref(getCommonProps);
         // console.log(menus);

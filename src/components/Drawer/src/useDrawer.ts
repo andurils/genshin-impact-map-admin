@@ -36,13 +36,6 @@ export function useDrawer(): UseDrawerReturnType {
   const loaded = ref<Nullable<boolean>>(false);
   const uid = ref<string>('');
 
-  /**
-   * register 用于注册 useDrawer，如果需要使用 useDrawer 提供的 api，必须将 register 传入组件的 onRegister。
-   * @description: 原理其实很简单，就是 vue 的组件子传父通信，内部通过 emit("register"，instance) 实现。
-   * @param {DrawerInstance} drawerInstance
-   * @param {string} uuid
-   * @return {*}
-   */
   function register(drawerInstance: DrawerInstance, uuid: string) {
     isProdMode() &&
       tryOnUnmounted(() => {
@@ -80,7 +73,6 @@ export function useDrawer(): UseDrawerReturnType {
       return visibleData[~~unref(uid)];
     }),
 
-    // 打开弹窗
     openDrawer: <T = any>(visible = true, data?: T, openOnSet = true): void => {
       getInstance()?.setDrawerProps({
         visible: visible,
@@ -97,7 +89,6 @@ export function useDrawer(): UseDrawerReturnType {
         dataTransferRef[unref(uid)] = toRaw(data);
       }
     },
-    // 关闭弹窗
     closeDrawer: () => {
       getInstance()?.setDrawerProps({ visible: false });
     },
@@ -106,9 +97,6 @@ export function useDrawer(): UseDrawerReturnType {
   return [register, methods];
 }
 
-/**
- * 用于独立的 Drawer 内部调用
- */
 export const useDrawerInner = (callbackFn?: Fn): UseDrawerInnerReturnType => {
   const drawerInstanceRef = ref<Nullable<DrawerInstance>>(null);
   const currentInstance = getCurrentInstance();
@@ -150,11 +138,10 @@ export const useDrawerInner = (callbackFn?: Fn): UseDrawerInnerReturnType => {
   return [
     register,
     {
-      // 修改 modal 的 loading 状态
       changeLoading: (loading = true) => {
         getInstance()?.setDrawerProps({ loading });
       },
-      // 修改确认按钮的 loading 状态
+
       changeOkLoading: (loading = true) => {
         getInstance()?.setDrawerProps({ confirmLoading: loading });
       },

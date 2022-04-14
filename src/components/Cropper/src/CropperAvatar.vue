@@ -48,29 +48,11 @@
   import Icon from '/@/components/Icon';
 
   const props = {
-    /**
-     *  图片源
-     */
     width: { type: [String, Number], default: '200px' },
-    /**
-     *  当前头像地址
-     */
     value: { type: String },
-    /**
-     *  是否显示按钮
-     */
     showBtn: { type: Boolean, default: true },
-    /**
-     *  按钮的其它属性
-     */
     btnProps: { type: Object as PropType<ButtonProps> },
-    /**
-     *  按钮文案
-     */
     btnText: { type: String, default: '' },
-    /**
-     *  图片上传接口
-     */
     uploadApi: { type: Function as PropType<({ file: Blob, name: string }) => Promise<void>> },
   };
 

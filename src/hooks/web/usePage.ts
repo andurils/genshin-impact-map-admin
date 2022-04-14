@@ -13,28 +13,13 @@ function handleError(e: Error) {
   console.error(e);
 }
 
-/**
- * page switch  切换页面
- *
- * @export
- * @param {Router} [_router]
- * @return {Function} 返回`go`方法
- */
+// page switch
 export function useGo(_router?: Router) {
   let router;
   if (!_router) {
-    router = useRouter(); // 返回 router 实例。相当于在模板中使用 $router
+    router = useRouter();
   }
-  // push 通过在历史堆栈中推送一个 entry，以编程方式导航到一个新的 URL。
-  // replace 通过替换历史堆栈中的当前 entry，以编程方式导航到一个新的 URL。
   const { push, replace } = _router || router;
-
-  /**
-   *  路由的跳转 push/replace
-   *
-   * @param {(PageEnum | RouteLocationRawEx | string)} [opt=PageEnum.BASE_HOME]
-   * @param {boolean} [isReplace=false]  是否使用 replace 方法
-   */
   function go(opt: PageEnum | RouteLocationRawEx | string = PageEnum.BASE_HOME, isReplace = false) {
     if (!opt) {
       return;
@@ -50,7 +35,7 @@ export function useGo(_router?: Router) {
 }
 
 /**
- * @description: redo current page  重做当前页面 //TODO
+ * @description: redo current page
  */
 export const useRedo = (_router?: Router) => {
   const { push, currentRoute } = _router || useRouter();

@@ -37,7 +37,7 @@
   import { CollapseContainer } from '/@/components/Container';
   import { CropperImage, CropperAvatar } from '/@/components/Cropper';
   import { uploadApi } from '/@/api/sys/upload';
-  import img from '/@/assets/images/header.png';
+  import img from '/@/assets/images/header.jpg';
   import { useUserStore } from '/@/store/modules/user';
 
   export default defineComponent({

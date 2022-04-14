@@ -50,46 +50,17 @@
     components: { PageFooter, PageHeader },
     inheritAttrs: false,
     props: {
-      /**
-       * pageHeader title
-       */
       title: propTypes.string,
-      /**
-       * 是否缩小主体区域  为 true 将会取消 padding/margin
-       */
       dense: propTypes.bool,
       ghost: propTypes.bool,
-      /**
-       * pageHeader Content 内容
-       */
       content: propTypes.string,
-      /**
-       * 主体区域样式
-       */
       contentStyle: {
         type: Object as PropType<CSSProperties>,
       },
-      /**
-       * 主体区域背景
-       */
       contentBackground: propTypes.bool,
-      /**
-       * 主体区域是否占满整个屏幕高度
-       */
       contentFullHeight: propTypes.bool,
-      /**
-       * 主体区域 class
-       */
       contentClass: propTypes.string,
-      /**
-       * 固定主体区域高度
-       */
       fixedHeight: propTypes.bool,
-      /**
-       * 向上递归减去空闲空间的 层级 或 直到指定class为止
-       * 数值为2代表向上递归两次
-       * 数值为ant-layout表示向上递归直到碰见.ant-layout为止
-       */
       upwardSpace: propTypes.oneOfType([propTypes.number, propTypes.string]).def(0),
     },
     setup(props, { slots, attrs }) {

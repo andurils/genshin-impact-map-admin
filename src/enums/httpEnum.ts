@@ -2,8 +2,8 @@
  * @description: Request result set
  */
 export enum ResultEnum {
-  SUCCESS = 0, // 成功标记
-  ERROR = 1, // 失败标记
+  SUCCESS = 0,
+  ERROR = 1,
   TIMEOUT = 401,
   TYPE = 'success',
 }

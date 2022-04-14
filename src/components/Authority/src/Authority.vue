@@ -12,7 +12,6 @@
     name: 'Authority',
     props: {
       /**
-       * 角色信息或者权限编码。会自动区分权限模式
        * Specified role is visible
        * When the permission mode is the role mode, the value value can pass the role value.
        * When the permission mode is background, the value value can pass the code permission value

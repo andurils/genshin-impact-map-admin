@@ -79,9 +79,7 @@ export const rotateProps = {
     type: Number as PropType<number>,
     default: 270,
   },
-  /**
-   *
-   */
+
   diffDegree: {
     type: Number as PropType<number>,
     default: 20,

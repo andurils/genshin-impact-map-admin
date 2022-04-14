@@ -18,19 +18,15 @@ import { resetRouter } from '/@/router';
 import { deepMerge } from '/@/utils';
 
 interface AppState {
-  // 主题模式
   darkMode?: ThemeEnum;
-  // Page loading status 页面加载状态
+  // Page loading status
   pageLoading: boolean;
   // project config
   projectConfig: ProjectConfig | null;
   // When the window shrinks, remember some states, and restore these states when the window is restored
-  // 当窗口缩小时记住一些状态，并在恢复窗口时恢复这些状态
   beforeMiniInfo: BeforeMiniState;
 }
-let timeId: TimeoutHandle; // 定时器编号
-
-/** APP状态信息存储  */
+let timeId: TimeoutHandle;
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AppState => ({
@@ -64,9 +60,6 @@ export const useAppStore = defineStore({
     getTransitionSetting(): TransitionSetting {
       return this.getProjectConfig.transitionSetting;
     },
-    /**
-     * 多TAB配置
-     */
     getMultiTabsSetting(): MultiTabsSetting {
       return this.getProjectConfig.multiTabsSetting;
     },
@@ -97,7 +90,7 @@ export const useAppStore = defineStore({
     async setPageLoadingAction(loading: boolean): Promise<void> {
       if (loading) {
         clearTimeout(timeId);
-        // Prevent flicker  防止闪烁
+        // Prevent flicker
         timeId = setTimeout(() => {
           this.setPageLoading(loading);
         }, 50);

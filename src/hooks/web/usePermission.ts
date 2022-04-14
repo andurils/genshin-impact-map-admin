@@ -17,10 +17,7 @@ import { intersection } from 'lodash-es';
 import { isArray } from '/@/utils/is';
 import { useMultipleTabStore } from '/@/store/modules/multipleTab';
 
-/**
- * 用户权限相关操作
- * ser permissions related operations for the current user
- */
+// User permissions related operations
 export function usePermission() {
   const userStore = useUserStore();
   const appStore = useAppStore();
@@ -28,7 +25,7 @@ export function usePermission() {
   const { closeAll } = useTabs(router);
 
   /**
-   * Change permission mode    切换权限模式 前端/后端
+   * Change permission mode
    */
   async function togglePermissionMode() {
     appStore.setProjectConfig({
@@ -41,7 +38,8 @@ export function usePermission() {
   }
 
   /**
-   * Reset and regain authority resource information   重置并获取权限资源信息
+   * Reset and regain authority resource information
+   * @param id
    */
   async function resume() {
     const tabStore = useMultipleTabStore();
@@ -56,27 +54,23 @@ export function usePermission() {
   }
 
   /**
-   * Determine whether there is permission to access  判断是否有权限访问
+   * Determine whether there is permission
    */
   function hasPermission(value?: RoleEnum | RoleEnum[] | string | string[], def = true): boolean {
-    // Visible by default  默认可见
+    // Visible by default
     if (!value) {
       return def;
     }
 
     const permMode = projectSetting.permissionMode;
 
-    // 前端角色模式
     if ([PermissionModeEnum.ROUTE_MAPPING, PermissionModeEnum.ROLE].includes(permMode)) {
-      // 判断用户角色是否符合
       if (!isArray(value)) {
         return userStore.getRoleList?.includes(value as RoleEnum);
       }
-      // 角色交集
       return (intersection(value, userStore.getRoleList) as RoleEnum[]).length > 0;
     }
 
-    // 后端模式
     if (PermissionModeEnum.BACK === permMode) {
       const allCodeList = permissionStore.getPermCodeList as string[];
       if (!isArray(value)) {
@@ -88,7 +82,7 @@ export function usePermission() {
   }
 
   /**
-   * Change roles   更改用户角色
+   * Change roles
    * @param roles
    */
   async function changeRole(roles: RoleEnum | RoleEnum[]): Promise<void> {
@@ -106,20 +100,11 @@ export function usePermission() {
   }
 
   /**
-   * refresh menu data  刷新菜单
+   * refresh menu data
    */
   async function refreshMenu() {
     resume();
   }
 
-  return {
-    /** 更改用户角色 */
-    changeRole,
-    /** 判断是否有权限访问 */
-    hasPermission,
-    /** 切换权限模式 */
-    togglePermissionMode,
-    /** 刷新菜单 */
-    refreshMenu,
-  };
+  return { changeRole, hasPermission, togglePermissionMode, refreshMenu };
 }

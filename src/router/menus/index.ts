@@ -10,7 +10,6 @@ import { router } from '/@/router';
 import { PermissionModeEnum } from '/@/enums/appEnum';
 import { pathToRegexp } from 'path-to-regexp';
 
-// 自动加载 `modules` 目录下的菜单模块
 const modules = import.meta.globEager('./modules/**/*.ts');
 
 const menuModules: MenuModule[] = [];
@@ -41,7 +40,6 @@ const isRoleMode = () => {
   return getPermissionMode() === PermissionModeEnum.ROLE;
 };
 
-// 简化处理
 const staticMenus: Menu[] = [];
 (() => {
   menuModules.sort((a, b) => {
@@ -53,22 +51,14 @@ const staticMenus: Menu[] = [];
   }
 })();
 
-/**
- * 根据不同的权限模式从不同的数据源获取菜单
- */
 async function getAsyncMenus() {
   const permissionStore = usePermissionStore();
-  // 后端模式 BACK
   if (isBackMode()) {
-    // 获取 this.setBackMenuList(menuList) 设置的菜单
     return permissionStore.getBackMenuList.filter((item) => !item.meta?.hideMenu && !item.hideMenu);
   }
-  // 前端模式(菜单由路由配置自动生成) ROUTE_MAPPING
   if (isRouteMappingMode()) {
-    // 获取 this.setFrontMenuList(menuList) 设置的菜单
     return permissionStore.getFrontMenuList.filter((item) => !item.hideMenu);
   }
-  // 前端模式(菜单和路由分开配置) ROLE
   return staticMenus;
 }
 

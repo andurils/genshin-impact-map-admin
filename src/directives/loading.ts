@@ -32,7 +32,6 @@ const loadingDirective: Directive = {
   },
 };
 
-/** 注册 loading 指令 */
 export function setupLoadingDirective(app: App) {
   app.directive('loading', loadingDirective);
 }

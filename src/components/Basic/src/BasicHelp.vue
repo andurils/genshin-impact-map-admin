@@ -10,12 +10,12 @@
 
   const props = {
     /**
-     * Help text max-width 最大宽度
+     * Help text max-width
      * @default: 600px
      */
     maxWidth: { type: String, default: '600px' },
     /**
-     * Whether to display the serial number 是否显示序号,在 text 为 string[]情况下生效
+     * Whether to display the serial number
      * @default: false
      */
     showIndex: { type: Boolean },
@@ -30,7 +30,7 @@
      */
     fontSize: { type: String, default: '14px' },
     /**
-     * Help text list  显示方向
+     * Help text list
      */
     placement: { type: String, default: 'right' },
     /**

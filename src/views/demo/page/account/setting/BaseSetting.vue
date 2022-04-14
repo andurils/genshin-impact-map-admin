@@ -30,7 +30,7 @@
 
   import { useMessage } from '/@/hooks/web/useMessage';
 
-  import headerImg from '/@/assets/images/header.png';
+  import headerImg from '/@/assets/images/header.jpg';
   import { accountInfoApi } from '/@/api/demo/account';
   import { baseSetschemas } from './data';
   import { useUserStore } from '/@/store/modules/user';

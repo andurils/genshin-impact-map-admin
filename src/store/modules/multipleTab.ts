@@ -15,52 +15,18 @@ import { MULTIPLE_TABS_KEY } from '/@/enums/cacheEnum';
 import projectSetting from '/@/settings/projectSetting';
 import { useUserStore } from '/@/store/modules/user';
 
-/**
- * 多标签页状态
- * @interface MultipleTabState
- */
 export interface MultipleTabState {
-  /**
-   * 缓存标签页路由名称
-   *
-   * @type {Set<string>}
-   * @memberof MultipleTabState
-   */
   cacheTabList: Set<string>;
-  /**
-   * 标签页路由列表
-   *
-   * @type {RouteLocationNormalized[]}
-   * @memberof MultipleTabState
-   */
   tabList: RouteLocationNormalized[];
-  /**
-   * 最后一次拖动标签的索引
-   *
-   * @type {number}
-   * @memberof MultipleTabState
-   */
   lastDragEndIndex: number;
 }
-/**
- * 使用 replace  实现路由页面跳转
- *
- * @param {Router} router
- */
+
 function handleGotoPage(router: Router) {
   const go = useGo(router);
   go(unref(router.currentRoute).path, true);
 }
 
-/**
- * 获得要导航到的路由地址
- *
- * @param {RouteLocationNormalized} tabItem  tab选项的标准化的路由地址
- */
 const getToTarget = (tabItem: RouteLocationNormalized) => {
-  // params 从 path 中提取的已解码参数字典。
-  // path 编码 URL 的 pathname 部分，与路由地址有关。
-  // query 从 URL 的 search 部分提取的已解码查询参数的字典。
   const { params, path, query } = tabItem;
   return {
     params: params || {},
@@ -71,7 +37,6 @@ const getToTarget = (tabItem: RouteLocationNormalized) => {
 
 const cacheTab = projectSetting.multiTabsSetting.cache;
 
-/** 多标签页信息存储  */
 export const useMultipleTabStore = defineStore({
   id: 'app-multiple-tab',
   state: (): MultipleTabState => ({
@@ -83,17 +48,9 @@ export const useMultipleTabStore = defineStore({
     lastDragEndIndex: 0,
   }),
   getters: {
-    /**
-     * 获取标签页路由列表
-     *
-     * @return {*}  {RouteLocationNormalized[]}
-     */
     getTabList(): RouteLocationNormalized[] {
       return this.tabList;
     },
-    /**
-     *  获取缓存标签页路由名称列表
-     */
     getCachedTabList(): string[] {
       return Array.from(this.cacheTabList);
     },
@@ -122,14 +79,13 @@ export const useMultipleTabStore = defineStore({
     },
 
     /**
-     * Refresh tabs according to the cache 刷新标签页
+     * Refresh tabs
      */
     async refreshPage(router: Router) {
       const { currentRoute } = router;
       const route = unref(currentRoute);
       const name = route.name;
 
-      // Remove the tab from the cache  从缓存中找到标签页并删除
       const findTab = this.getCachedTabList.find((item) => item === name);
       if (findTab) {
         this.cacheTabList.delete(findTab);
@@ -137,13 +93,9 @@ export const useMultipleTabStore = defineStore({
       const redo = useRedo(router);
       await redo();
     },
-    /**
-     * 清除缓存列表
-     */
     clearCacheTabs(): void {
       this.cacheTabList = new Set();
     },
-
     resetState(): void {
       this.tabList = [];
       this.clearCacheTabs();
@@ -300,12 +252,7 @@ export const useMultipleTabStore = defineStore({
       this.lastDragEndIndex = this.lastDragEndIndex + 1;
     },
 
-    /**
-     * Close the tab on the right and jump  关闭右侧标签页并跳转
-     *
-     * @param {RouteLocationNormalized} route
-     * @param {Router} router
-     */
+    // Close the tab on the right and jump
     async closeLeftTabs(route: RouteLocationNormalized, router: Router) {
       const index = this.tabList.findIndex((item) => item.path === route.path);
 
@@ -343,14 +290,11 @@ export const useMultipleTabStore = defineStore({
       this.updateCacheTab();
       handleGotoPage(router);
     },
-    /**
-     * 关闭所有非 affix 的 tab，并跳转到首页
-     * @param {Router} router
-     */
+
     async closeAllTab(router: Router) {
-      this.tabList = this.tabList.filter((item) => item?.meta?.affix ?? false); // 没有固定在标签页
+      this.tabList = this.tabList.filter((item) => item?.meta?.affix ?? false);
       this.clearCacheTabs();
-      this.goToPage(router); // 首页的tab
+      this.goToPage(router);
     },
 
     /**
@@ -386,12 +330,12 @@ export const useMultipleTabStore = defineStore({
     },
 
     /**
-     * Set tab's title  设置标签标题
+     * Set tab's title
      */
     async setTabTitle(title: string, route: RouteLocationNormalized) {
       const findTab = this.getTabList.find((item) => item === route);
       if (findTab) {
-        findTab.meta.title = title; // meta实现 设置每个页面的title标题
+        findTab.meta.title = title;
         await this.updateCacheTab();
       }
     },

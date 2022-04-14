@@ -34,7 +34,7 @@ function processStackMsg(error: Error) {
 }
 
 /**
- * get comp name and path  获取组件名称和路径
+ * get comp name
  * @param vm
  */
 function formatComponentName(vm: any) {
@@ -60,10 +60,11 @@ function formatComponentName(vm: any) {
 }
 
 /**
- * Configure Vue error handling function    配置Vue错误处理函数
+ * Configure Vue error handling function
  */
+
 function vueErrorHandler(err: Error, vm: any, info: string) {
-  const errorLogStore = useErrorLogStoreWithOut(); // 错误日志存储
+  const errorLogStore = useErrorLogStoreWithOut();
   const { name, path } = formatComponentName(vm);
   errorLogStore.addErrorLogInfo({
     type: ErrorTypeEnum.VUE,
@@ -77,7 +78,7 @@ function vueErrorHandler(err: Error, vm: any, info: string) {
 }
 
 /**
- * Configure script error handling function   配置脚本错误处理函数
+ * Configure script error handling function
  */
 export function scriptErrorHandler(
   event: Event | string,
@@ -111,10 +112,9 @@ export function scriptErrorHandler(
 }
 
 /**
- * Configure Promise error handling function  配置 promise 异常监控
+ * Configure Promise error handling function
  */
 function registerPromiseErrorHandler() {
-  // 当Promise 被 reject 且没有 reject 处理器的时候，会触发 unhandledrejection 事件
   window.addEventListener(
     'unhandledrejection',
     function (event) {
@@ -134,10 +134,10 @@ function registerPromiseErrorHandler() {
 }
 
 /**
- * Configure monitoring resource loading error handling function 配置资源加载错误监控
+ * Configure monitoring resource loading error handling function
  */
 function registerResourceErrorHandler() {
-  // Monitoring resource loading error(img,script,css,and jsonp) 图片，脚本，css，jsonp加载错误监控
+  // Monitoring resource loading error(img,script,css,and jsonp)
   window.addEventListener(
     'error',
     function (e: Event) {
@@ -162,7 +162,7 @@ function registerResourceErrorHandler() {
 }
 
 /**
- * Configure global error handling  配置全局错误处理
+ * Configure global error handling
  * @param app
  */
 export function setupErrorHandle(app: App) {

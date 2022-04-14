@@ -1,8 +1,5 @@
 import BasicForm from './src/BasicForm.vue';
 
-// 对 antv 的 form 组件进行封装，扩展一些常用的功能
-// https://vvbin.cn/doc-next/components/form.html
-
 export * from './src/types/form';
 export * from './src/types/formItem';
 

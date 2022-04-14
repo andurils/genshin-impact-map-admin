@@ -45,12 +45,11 @@
         default: 16,
       },
       spin: propTypes.bool.def(false),
-      // 图标前缀
       prefix: propTypes.string.def(''),
     },
     setup(props) {
       const elRef = ref<ElRef>(null);
-      // 如果 icon 值以 |svg 结尾，则会渲染成 SvgIcon 组件
+
       const isSvgIcon = computed(() => props.icon?.endsWith(SVG_END_WITH_FLAG));
       const getSvgIcon = computed(() => props.icon.replace(SVG_END_WITH_FLAG, ''));
       const getIconRef = computed(() => `${props.prefix ? props.prefix + ':' : ''}${props.icon}`);

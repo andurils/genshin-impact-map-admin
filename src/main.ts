@@ -15,38 +15,36 @@ import { setupGlobDirectives } from '/@/directives';
 import { setupI18n } from '/@/locales/setupI18n';
 import { registerGlobComp } from '/@/components/registerGlobComp';
 
-// 项目的初始化配置
 async function bootstrap() {
-  // 创建应用实例
   const app = createApp(App);
 
-  // Configure store 配置存储使用Pinia
+  // Configure store
   setupStore(app);
 
-  // Initialize internal system configuration 初始化内部系统配置
+  // Initialize internal system configuration
   initAppConfigStore();
 
-  // Register global components 注册全局组件
+  // Register global components
   registerGlobComp(app);
 
-  // Multilingual configuration  多语言配置
-  // Asynchronous case: language files may be obtained from the server side  异步情况：语言文件可以从服务器端获取
+  // Multilingual configuration
+  // Asynchronous case: language files may be obtained from the server side
   await setupI18n(app);
 
-  // Configure routing 配置路由
+  // Configure routing
   setupRouter(app);
 
-  // router-guard 路由守卫、权限判断、初始化缓存数据
+  // router-guard
   setupRouterGuard(router);
 
-  // Register global directive 注册全局指令
+  // Register global directive
   setupGlobDirectives(app);
 
-  // Configure global error handling 配置全局错误处理
+  // Configure global error handling
   setupErrorHandle(app);
 
-  // https://router.vuejs.org/zh/api/#isready
-  await router.isReady();
+  // https://next.router.vuejs.org/api/#isready
+  // await router.isReady();
 
   app.mount('#app');
 }

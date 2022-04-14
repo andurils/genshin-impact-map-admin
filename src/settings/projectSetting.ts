@@ -12,95 +12,93 @@ import {
 import { SIDE_BAR_BG_COLOR_LIST, HEADER_PRESET_BG_COLOR_LIST } from './designSetting';
 import { primaryColor } from '../../build/config/themeConfig';
 
-// TODO 注释
 // ! You need to clear the browser cache after the change
-/** 项目配置 */
 const setting: ProjectConfig = {
-  // Whether to show the configuration button  是否显示配置按钮
+  // Whether to show the configuration button
   showSettingButton: true,
 
-  // Whether to show the theme switch button  是否显示主题切换按钮
+  // Whether to show the theme switch button
   showDarkModeToggle: true,
 
-  // `Settings` button position 配置按钮位置
+  // `Settings` button position
   settingButtonPosition: SettingButtonPositionEnum.AUTO,
 
-  // Permission mode 权限模式
+  // Permission mode
   permissionMode: PermissionModeEnum.ROUTE_MAPPING,
 
-  // Permission-related cache is stored in sessionStorage or localStorage 权限相关缓存存储在sessionStorage或localStorage
+  // Permission-related cache is stored in sessionStorage or localStorage
   permissionCacheType: CacheTypeEnum.LOCAL,
 
-  // Session timeout processing 会话超时处理
+  // Session timeout processing
   sessionTimeoutProcessing: SessionTimeoutProcessingEnum.ROUTE_JUMP,
 
-  // color  主题颜色
+  // color
   themeColor: primaryColor,
 
-  // Website gray mode, open for possible mourning dates 网站灰色模式
+  // Website gray mode, open for possible mourning dates
   grayMode: false,
 
-  // Color Weakness Mode 色弱模式
+  // Color Weakness Mode
   colorWeak: false,
 
   // Whether to cancel the menu, the top, the multi-tab page display, for possible embedded in other systems
   fullContent: false,
 
-  // content mode 内容模式
+  // content mode
   contentMode: ContentEnum.FULL,
 
-  // Whether to display the logo 是否显示logo
+  // Whether to display the logo
   showLogo: true,
 
-  // Whether to show footer 是否显示页脚
+  // Whether to show footer
   showFooter: false,
 
-  // Header configuration 顶栏配置
+  // Header configuration
   headerSetting: {
-    // header bg color 顶栏背景色
+    // header bg color
     bgColor: HEADER_PRESET_BG_COLOR_LIST[0],
-    // Fixed at the top  固定在页面顶部
+    // Fixed at the top
     fixed: true,
     // Whether to show top
     show: true,
-    // theme  顶栏主题
+    // theme
     theme: ThemeEnum.LIGHT,
-    // Whether to enable the lock screen function 是否启用锁屏功能
+    // Whether to enable the lock screen function
     useLockPage: true,
-    // Whether to show the full screen button 是否显示全屏按钮
+    // Whether to show the full screen button
     showFullScreen: true,
-    // Whether to show the document button 是否显示文档按钮
+    // Whether to show the document button
     showDoc: true,
-    // Whether to show the notification button 是否显示通知按钮
+    // Whether to show the notification button
     showNotice: true,
-    // Whether to display the menu search 是否显示菜单搜索
+    // Whether to display the menu search
     showSearch: true,
   },
 
-  // Menu configuration 菜单配置
+  // Menu configuration
   menuSetting: {
-    // sidebar menu bg color 菜单侧边栏背景色
+    // sidebar menu bg color
     bgColor: SIDE_BAR_BG_COLOR_LIST[0],
-    //  Whether to fix the left menu 是否固定侧边栏菜单
+    //  Whether to fix the left menu
     fixed: true,
-    // Menu collapse  菜单折叠
+    // Menu collapse
     collapsed: false,
-    // Whether to display the menu name when folding the menu 折叠菜单显示名称
+    // Whether to display the menu name when folding the menu
     collapsedShowTitle: false,
-    // Whether it can be dragged   侧边菜单拖拽
+    // Whether it can be dragged
     // Only limited to the opening of the left menu, the mouse has a drag bar on the right side of the menu
     canDrag: false,
     // Whether to show no dom
     show: true,
     // Whether to show dom
     hidden: false,
-    // Menu width  菜单展开宽度
+    // Menu width
     menuWidth: 210,
     // Menu mode
     mode: MenuModeEnum.INLINE,
     // Menu type
     type: MenuTypeEnum.SIDEBAR,
-    // Menu theme  主题风格
+    // Menu theme
     theme: ThemeEnum.DARK,
     // Split menu
     split: false,
@@ -146,8 +144,8 @@ const setting: ProjectConfig = {
     // Only open when enable=true
     openPageLoading: true,
 
-    // Whether to open the top progress bar 顶部进度条
-    openNProgress: true,
+    // Whether to open the top progress bar
+    openNProgress: false,
   },
 
   // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time

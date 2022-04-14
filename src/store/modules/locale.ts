@@ -7,9 +7,8 @@ import { LOCALE_KEY } from '/@/enums/cacheEnum';
 import { createLocalStorage } from '/@/utils/cache';
 import { localeSetting } from '/@/settings/localeSetting';
 
-// 创建国际化缓存
 const ls = createLocalStorage();
-// 获取本地缓存/配置信息
+
 const lsLocaleSetting = (ls.get(LOCALE_KEY) || localeSetting) as LocaleSetting;
 
 interface LocaleState {
@@ -32,7 +31,6 @@ export const useLocaleStore = defineStore({
   actions: {
     /**
      * Set up multilingual information and cache
-     * 设置多语言信息并缓存
      * @param info multilingual info
      */
     setLocaleInfo(info: Partial<LocaleSetting>) {
@@ -41,7 +39,6 @@ export const useLocaleStore = defineStore({
     },
     /**
      * Initialize multilingual information and load the existing configuration from the local cache
-     * 初始化多语言信息并从本地缓存加载现有配置
      */
     initLocale() {
       this.setLocaleInfo({
@@ -52,7 +49,7 @@ export const useLocaleStore = defineStore({
   },
 });
 
-// Need to be used outside the setup 
+// Need to be used outside the setup
 export function useLocaleStoreWithOut() {
   return useLocaleStore(store);
 }

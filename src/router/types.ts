@@ -29,20 +29,9 @@ export interface Menu {
 
   icon?: string;
 
-  /**
-   * 路由地址
-   *
-   * @type {string}
-   * @memberof Menu
-   */
   path: string;
 
-  /**
-   * path contains param, auto assignment. eg: /user/:id
-   *
-   * @type {string}
-   * @memberof Menu
-   */
+  // path contains param, auto assignment.
   paramPath?: string;
 
   disabled?: boolean;

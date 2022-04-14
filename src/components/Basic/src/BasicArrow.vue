@@ -1,6 +1,6 @@
 <!--
  * @Author: Vben
- * @Description: Arrow component with animation 带动画的箭头组件
+ * @Description: Arrow component with animation
 -->
 <template>
   <span :class="getClass">
@@ -14,19 +14,19 @@
 
   const props = defineProps({
     /**
-     * Arrow expand state 箭头展开状态
+     * Arrow expand state
      */
     expand: { type: Boolean },
     /**
-     * Arrow up by default  箭头默认向上
+     * Arrow up by default
      */
     up: { type: Boolean },
     /**
-     * Arrow down by default  箭头默认向下
+     * Arrow down by default
      */
     down: { type: Boolean },
     /**
-     * Cancel padding/margin for inline 取消 padding/margin，用于内嵌
+     * Cancel padding/margin for inline
      */
     inset: { type: Boolean },
   });

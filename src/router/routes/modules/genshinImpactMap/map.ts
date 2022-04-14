@@ -22,14 +22,13 @@ const map: AppRouteModule = {
     {
       path: 'maintain',
       name: 'Maintain',
-      component: ExceptionPage,
-      props: {
-        status: ExceptionEnum.ERROR,
-      },
       meta: {
         title: '地图维护',
+        ignoreKeepAlive: true,
       },
+      component: () => import('/@/views/genshinImpact/system/role/index.vue'),
     },
+
     {
       path: 'layer_add',
       name: 'LayerAdd',

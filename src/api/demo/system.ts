@@ -2,7 +2,7 @@ import {
   AccountParams,
   DeptListItem,
   MenuParams,
-  RoleParams,
+  // RoleParams,
   RolePageParams,
   MenuListGetResultModel,
   DeptListGetResultModel,
@@ -43,7 +43,10 @@ export const getMenuList = (params?: MenuParams) =>
 export const getRoleListByPage = (params?: RolePageParams) =>
   defHttp.get<RolePageListGetResultModel>(
     { url: Api.RolePageList, params },
-    { isTransformResponse: false },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
   );
 
 // export const getAllRoleList = (params?: RoleParams) =>

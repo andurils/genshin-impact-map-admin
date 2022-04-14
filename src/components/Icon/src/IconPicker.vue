@@ -106,12 +106,8 @@
   const props = defineProps({
     value: propTypes.string,
     width: propTypes.string.def('100%'),
-    pageSize: propTypes.number.def(140), // 每页显示的图标数
-    copy: propTypes.bool.def(false), // 是否可以复制
-    /**
-     * mode为iconify时，会使用预生成的图标集数据作为备选图标池
-     * mode为svg时，会使用 /src/assets/icons 下的所有svg图标（可包含一级子目录）作为备选图标池，详见vite-plugin-svg-icons。
-     */
+    pageSize: propTypes.number.def(140),
+    copy: propTypes.bool.def(false),
     mode: propTypes.oneOf<('svg' | 'iconify')[]>(['svg', 'iconify']).def('iconify'),
   });
 

@@ -22,23 +22,21 @@ import { Persistent } from '/@/utils/cache/persistent';
 import { deepMerge } from '/@/utils';
 import { ThemeEnum } from '/@/enums/appEnum';
 
-// Initial project configuration  初始化项目配置
+// Initial project configuration
 export function initAppConfigStore() {
-  const localeStore = useLocaleStore(); // 多语言国际化
-  const appStore = useAppStore(); // 应用状态(主题风格、项目配置、页面加载、页面状态等等)
-  // 项目配置
+  const localeStore = useLocaleStore();
+  const appStore = useAppStore();
   let projCfg: ProjectConfig = Persistent.getLocal(PROJ_CFG_KEY) as ProjectConfig;
   projCfg = deepMerge(projectSetting, projCfg || {});
-  const darkMode = appStore.getDarkMode; // 主题暗黑模式
+  const darkMode = appStore.getDarkMode;
   const {
-    colorWeak, // 是否开启色弱模式
-    grayMode, // 是否开启灰度模式
-    themeColor, // 主题颜色
+    colorWeak,
+    grayMode,
+    themeColor,
 
-    headerSetting: { bgColor: headerBgColor } = {}, // 顶栏配置
-    menuSetting: { bgColor } = {}, // 菜单配置
+    headerSetting: { bgColor: headerBgColor } = {},
+    menuSetting: { bgColor } = {},
   } = projCfg;
-
   try {
     if (themeColor && themeColor !== primaryColor) {
       changeTheme(themeColor);
@@ -49,10 +47,9 @@ export function initAppConfigStore() {
   } catch (error) {
     console.log(error);
   }
-  // 存储项目配置
   appStore.setProjectConfig(projCfg);
 
-  // init dark mode  初始化暗黑模式
+  // init dark mode
   updateDarkTheme(darkMode);
   if (darkMode === ThemeEnum.DARK) {
     updateHeaderBgColor();
@@ -61,10 +58,9 @@ export function initAppConfigStore() {
     headerBgColor && updateHeaderBgColor(headerBgColor);
     bgColor && updateSidebarBgColor(bgColor);
   }
-  // init store  初始化国际化多语言
+  // init store
   localeStore.initLocale();
 
-  // 清理过期的缓存
   setTimeout(() => {
     clearObsoleteStorage();
   }, 16);
@@ -73,11 +69,10 @@ export function initAppConfigStore() {
 /**
  * As the version continues to iterate, there will be more and more cache keys stored in localStorage.
  * This method is used to delete useless keys
- * 清理过期的缓存
  */
 export function clearObsoleteStorage() {
-  const commonPrefix = getCommonStoragePrefix(); // 公共前缀
-  const shortPrefix = getStorageShortName(); // 版本缓存key
+  const commonPrefix = getCommonStoragePrefix();
+  const shortPrefix = getStorageShortName();
 
   [localStorage, sessionStorage].forEach((item: Storage) => {
     Object.keys(item).forEach((key) => {

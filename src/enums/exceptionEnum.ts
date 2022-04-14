@@ -18,12 +18,6 @@ export enum ExceptionEnum {
   PAGE_NOT_DATA = 10100,
 }
 
-/**
- * 错误类型
- *
- * @export
- * @enum {number}
- */
 export enum ErrorTypeEnum {
   VUE = 'vue',
   SCRIPT = 'script',

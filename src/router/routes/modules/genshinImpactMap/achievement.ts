@@ -1,10 +1,5 @@
 import type { AppRouteModule } from '/@/router/types';
-
-import { getParentLayout, LAYOUT } from '/@/router/constant';
-// TODO 国际化
-// import { t } from '/@/hooks/web/useI18n';
-import { ExceptionEnum } from '/@/enums/exceptionEnum';
-const ExceptionPage = () => import('/@/views/sys/exception/Exception.vue');
+import { LAYOUT } from '/@/router/constant';
 
 // 成就管理模块菜单
 const achievement: AppRouteModule = {
@@ -21,14 +16,12 @@ const achievement: AppRouteModule = {
   children: [
     {
       path: 'maintain',
-      name: 'Maintain',
-      component: ExceptionPage,
-      props: {
-        status: ExceptionEnum.ERROR,
-      },
+      name: 'AMaintain',
       meta: {
         title: '成就项编辑',
+        ignoreKeepAlive: true,
       },
+      component: () => import('/@/views/genshinImpact/system/role/index.vue'),
     },
   ],
 };

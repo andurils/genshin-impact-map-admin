@@ -135,8 +135,5 @@
     "sider",
     "pnpm",
     "antd"
-  ],
-  "[dotenv]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
-  }
+  ]
 }

@@ -12,10 +12,6 @@ import { CacheTypeEnum } from '/@/enums/cacheEnum';
 
 export type LocaleType = 'zh_CN' | 'en' | 'ru' | 'ja' | 'ko';
 
-/**
- * 菜单设置
- *
- */
 export interface MenuSetting {
   bgColor: string;
   fixed: boolean;
@@ -37,17 +33,7 @@ export interface MenuSetting {
   mixSideFixed: boolean;
 }
 
-/**
- * 多Tab设置
- *
- */
 export interface MultiTabsSetting {
-  /**
-   * 是否开启缓存
-   *
-   * @type {boolean}
-   * @memberof MultiTabsSetting
-   */
   cache: boolean;
   show: boolean;
   showQuick: boolean;
@@ -56,10 +42,6 @@ export interface MultiTabsSetting {
   showFold: boolean;
 }
 
-/**
- * 顶栏设置
- *
- */
 export interface HeaderSetting {
   bgColor: string;
   fixed: boolean;
@@ -76,159 +58,104 @@ export interface HeaderSetting {
   showSearch: boolean;
 }
 
-/**
- * 本地化设置
- *
- */
 export interface LocaleSetting {
-  // Whether to show the language picker 是否显示语言选择器
   showPicker: boolean;
-  // Current language 当前语言
+  // Current language
   locale: LocaleType;
-  // default language 默认语言
+  // default language
   fallback: LocaleType;
-  // available Locales 可用语言
+  // available Locales
   availableLocales: LocaleType[];
 }
 
-/**
- * 过渡动画设置
- *
- */
 export interface TransitionSetting {
-  //  Whether to open the page switching animation  是否开启页面切换动画
+  //  Whether to open the page switching animation
   enable: boolean;
-  // Route basic switching animation 路由切换动画
+  // Route basic switching animation
   basicTransition: RouterTransitionEnum;
-  // Whether to open page switching loading  是否开启页面加载动画
+  // Whether to open page switching loading
   openPageLoading: boolean;
-  /**
-   * Whether to open the top progress bar
-   * 是否开启顶部进度条
-   *
-   * @type {boolean}
-   * @memberof TransitionSetting
-   */
+  // Whether to open the top progress bar
   openNProgress: boolean;
 }
 
-/**
- * 项目配置
- *
- */
 export interface ProjectConfig {
-  // Storage location of permission related information  权限缓存类型 SESSION LOCAL
+  // Storage location of permission related information
   permissionCacheType: CacheTypeEnum;
-  // Whether to show the configuration button 是否显示配置按钮
+  // Whether to show the configuration button
   showSettingButton: boolean;
-  // Whether to show the theme switch button  是否显示主题风格切换按钮
+  // Whether to show the theme switch button
   showDarkModeToggle: boolean;
-  // Configure where the button is displayed  配置按钮显示位置
+  // Configure where the button is displayed
   settingButtonPosition: SettingButtonPositionEnum;
-
-  /**
-   * Permission mode  权限模式
-   * ROLE / BACK / ROUTE_MAPPING
-   *
-   * @type {PermissionModeEnum}
-   * @memberof ProjectConfig
-   */
+  // Permission mode
   permissionMode: PermissionModeEnum;
-  // Session timeout processing 会话超时处理方式 ROUTE_JUMP  PAGE_COVERAGE
+  // Session timeout processing
   sessionTimeoutProcessing: SessionTimeoutProcessingEnum;
-  // Website gray mode, open for possible mourning dates  网站灰度模式
+  // Website gray mode, open for possible mourning dates
   grayMode: boolean;
-  // Whether to turn on the color weak mode   是否开启颜色弱化模式
+  // Whether to turn on the color weak mode
   colorWeak: boolean;
-  // Theme color 主题颜色
+  // Theme color
   themeColor: string;
 
   // The main interface is displayed in full screen, the menu is not displayed, and the top
   fullContent: boolean;
-  // content width 内容宽度
+  // content width
   contentMode: ContentEnum;
-  // Whether to display the logo 是否显示logo
+  // Whether to display the logo
   showLogo: boolean;
-  // Whether to show the global footer 是否显示全局底部
+  // Whether to show the global footer
   showFooter: boolean;
-  // 菜单类型
   // menuType: MenuTypeEnum;
-  // Header 配置
   headerSetting: HeaderSetting;
-  // menuSetting 菜单配置
+  // menuSetting
   menuSetting: MenuSetting;
-
-  /**
-   * Multi-tab settings 多TAB配置
-   *
-   * @type {MultiTabsSetting}
-   * @memberof ProjectConfig
-   */
+  // Multi-tab settings
   multiTabsSetting: MultiTabsSetting;
-  // Animation configuration  动画配置
+  // Animation configuration
   transitionSetting: TransitionSetting;
-  // pageLayout whether to enable keep-alive  是否启用keep-alive
+  // pageLayout whether to enable keep-alive
   openKeepAlive: boolean;
-  // Lock screen time 锁屏时间
+  // Lock screen time
   lockTime: number;
-  // Show breadcrumbs   是否显示面包屑
+  // Show breadcrumbs
   showBreadCrumb: boolean;
-  // Show breadcrumb icon   是否显示面包屑图标
+  // Show breadcrumb icon
   showBreadCrumbIcon: boolean;
-  /**
-   * Use error-handler-plugin 是否使用错误插件
-   *
-   * @type {boolean}
-   * @memberof ProjectConfig
-   */
+  // Use error-handler-plugin
   useErrorHandle: boolean;
-  // Whether to open back to top  是否开启回到顶部
+  // Whether to open back to top
   useOpenBackTop: boolean;
-  // Is it possible to embed iframe pages 是否可以嵌入iframe页面
+  // Is it possible to embed iframe pages
   canEmbedIFramePage: boolean;
-
-  /**
-   * Whether to delete unclosed messages and notify when switching the interface
-   * 是否在切换页面时 删除未关闭的消息通知
-   * @type {boolean}
-   * @memberof ProjectConfig
-   */
+  // Whether to delete unclosed messages and notify when switching the interface
   closeMessageOnSwitch: boolean;
   // Whether to cancel the http request that has been sent but not responded when switching the interface.
-  // 是否取消未响应的http请求
   removeAllHttpPending: boolean;
 }
 
-/**
- * 全局配置
- *
- */
 export interface GlobConfig {
-  // Site title 站点标题
+  // Site title
   title: string;
-  // Service interface url  服务接口地址
+  // Service interface url
   apiUrl: string;
-  // Upload url 上传地址
+  // Upload url
   uploadUrl?: string;
-  //  Service interface url prefix  服务接口地址前缀
+  //  Service interface url prefix
   urlPrefix?: string;
-  // Project abbreviation 项目简称
+  // Project abbreviation
   shortName: string;
 }
-
-/**
- * 全局环境配置
- *
- */
 export interface GlobEnvConfig {
-  // Site title 站点标题
+  // Site title
   VITE_GLOB_APP_TITLE: string;
-  // Service interface url  服务接口地址
+  // Service interface url
   VITE_GLOB_API_URL: string;
-  // Service interface url prefix 服务接口地址前缀
+  // Service interface url prefix
   VITE_GLOB_API_URL_PREFIX?: string;
-  // Project abbreviation   项目简称
+  // Project abbreviation
   VITE_GLOB_APP_SHORT_NAME: string;
-  // Upload url   上传地址
+  // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
 }

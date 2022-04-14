@@ -12,7 +12,7 @@
 
   const props = defineProps({
     /**
-     * Help text list or string 标题右侧帮助按钮信息 换行使用数组
+     * Help text list or string
      * @default: ''
      */
     helpMessage: {
@@ -20,12 +20,12 @@
       default: '',
     },
     /**
-     * Whether the color block on the left side of the title 是否显示标题左侧蓝色色块
+     * Whether the color block on the left side of the title
      * @default: false
      */
     span: { type: Boolean },
     /**
-     * Whether to default the text, that is, not bold 将文字默认化，不加粗
+     * Whether to default the text, that is, not bold
      * @default: false
      */
     normal: { type: Boolean },

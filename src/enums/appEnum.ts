@@ -32,14 +32,8 @@ export enum PermissionModeEnum {
   // role
   ROLE = 'ROLE',
   // black
-  /**
-   *  基于后端权限 black
-   */
   BACK = 'BACK',
   // route mapping
-  /**
-   *  基于前端权限 ROUTE_MAPPING
-   */
   ROUTE_MAPPING = 'ROUTE_MAPPING',
 }
 

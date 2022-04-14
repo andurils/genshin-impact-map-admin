@@ -64,13 +64,8 @@ export function getDynamicProps<T, U>(props: T): Partial<U> {
   return ret as Partial<U>;
 }
 
-/**
- * 匹配到的所有的 RouteRecord 对象格式化处理
- *
- */
 export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormalized {
   if (!route) return route;
-  // matched 给定路由地址匹配的 标准化的路由记录( routerecord) 数组。
   const { matched, ...opt } = route;
   return {
     ...opt,

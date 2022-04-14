@@ -9,25 +9,10 @@
   import { isNumber } from '/@/utils/is';
 
   const props = {
-    /**
-     * 起始值
-     */
     startVal: { type: Number, default: 0 },
-    /**
-     * 结束值
-     */
     endVal: { type: Number, default: 2021 },
-    /**
-     * 动画持续时间
-     */
     duration: { type: Number, default: 1500 },
-    /**
-     * 自动执行
-     */
     autoplay: { type: Boolean, default: true },
-    /**
-     * 保留小数点位数
-     */
     decimals: {
       type: Number,
       default: 0,
@@ -35,29 +20,20 @@
         return value >= 0;
       },
     },
-    /**
-     * 保留小数点位数
-     */
     prefix: { type: String, default: '' },
-    /**
-     * 后缀
-     */
     suffix: { type: String, default: '' },
-    /**
-     * 分隔符
-     */
     separator: { type: String, default: ',' },
     decimal: { type: String, default: '.' },
     /**
-     * font color 字体颜色
+     * font color
      */
     color: { type: String },
     /**
-     * Turn on digital animation 是否开启动画
+     * Turn on digital animation
      */
     useEasing: { type: Boolean, default: true },
     /**
-     * Digital animation 动画效果
+     * Digital animation
      */
     transition: { type: String, default: 'linear' },
   };

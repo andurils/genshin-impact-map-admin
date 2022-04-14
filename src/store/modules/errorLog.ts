@@ -13,7 +13,6 @@ export interface ErrorLogState {
   errorLogListCount: number;
 }
 
-/** 错误日志存储 */
 export const useErrorLogStore = defineStore({
   id: 'app-error-log',
   state: (): ErrorLogState => ({
@@ -29,11 +28,6 @@ export const useErrorLogStore = defineStore({
     },
   },
   actions: {
-    /**
-     * 添加错误日志
-     *
-     * @param {ErrorLogInfo} info
-     */
     addErrorLogInfo(info: ErrorLogInfo) {
       const item = {
         ...info,

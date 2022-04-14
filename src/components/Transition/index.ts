@@ -1,7 +1,6 @@
 import { createSimpleTransition, createJavascriptTransition } from './src/CreateTransition';
 
 import ExpandTransitionGenerator from './src/ExpandTransition';
-// 用于页面/组件切换动画
 
 export { default as CollapseTransition } from './src/CollapseTransition.vue';
 

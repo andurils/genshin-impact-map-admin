@@ -32,25 +32,22 @@
   const props = {
     /**
      * Waiting time, if the time is specified, whether visible or not, it will be automatically loaded after the specified time
-     * 等待时间，如果指定了时间，不论可见与否，在指定时间之后自动加载
      */
     timeout: { type: Number },
     /**
      * The viewport where the component is located.
      * If the component is scrolling in the page container, the viewport is the container
-     * 组件所在的视口，如果组件是在页面容器内滚动，视口就是该容器
      */
     viewport: {
       type: (typeof window !== 'undefined' ? window.HTMLElement : Object) as PropType<HTMLElement>,
       default: () => null,
     },
     /**
-     * Preload threshold, css unit  预加载阈值, css 单位
+     * Preload threshold, css unit
      */
     threshold: { type: String, default: '0px' },
     /**
      * The scroll direction of the viewport, vertical represents the vertical direction, horizontal represents the horizontal direction
-     * 视口的滚动方向, vertical 代表垂直方向，horizontal 代表水平方向
      */
     direction: {
       type: String,
@@ -59,15 +56,11 @@
     },
     /**
      * The label name of the outer container that wraps the component
-     * 包裹组件的外层容器的标签名
      */
     tag: { type: String, default: 'div' },
-    /**
-     * 最大等待时间
-     */
     maxWaitingTime: { type: Number, default: 80 },
     /**
-     * transition name  动画 name
+     * transition name
      */
     transitionName: { type: String, default: 'lazy-container' },
   };

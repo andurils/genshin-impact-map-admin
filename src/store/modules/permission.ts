@@ -25,19 +25,9 @@ import { useMessage } from '/@/hooks/web/useMessage';
 import { PageEnum } from '/@/enums/pageEnum';
 
 interface PermissionState {
-  /**
-   * Permission code list  权限代码列表
-   *
-   * @type {(string[] | number[])}
-   * @memberof PermissionState
-   */
+  // Permission code list
   permCodeList: string[] | number[];
-
-  /**
-   * Whether the route has been dynamically added 是否动态添加路由
-   * @type {boolean}
-   * @memberof PermissionState
-   */
+  // Whether the route has been dynamically added
   isDynamicAddedRoute: boolean;
   // To trigger a menu update
   lastBuildMenuTime: number;
@@ -45,7 +35,6 @@ interface PermissionState {
   backMenuList: Menu[];
   frontMenuList: Menu[];
 }
-/** 用户权限信息存储  */
 export const usePermissionStore = defineStore({
   id: 'app-permission',
   state: (): PermissionState => ({
@@ -60,10 +49,6 @@ export const usePermissionStore = defineStore({
     frontMenuList: [],
   }),
   getters: {
-    /**
-     * 获取用户后端 权限代码列表
-     * @return {*}  {(string[] | number[])}
-     */
     getPermCodeList(): string[] | number[] {
       return this.permCodeList;
     },
@@ -93,7 +78,7 @@ export const usePermissionStore = defineStore({
     setFrontMenuList(list: Menu[]) {
       this.frontMenuList = list;
     },
-    // 设置菜单更新时间
+
     setLastBuildMenuTime() {
       this.lastBuildMenuTime = new Date().getTime();
     },
@@ -111,9 +96,6 @@ export const usePermissionStore = defineStore({
       const codeList = await getPermCode();
       this.setPermCodeList(codeList);
     },
-    /**
-     * 基于权限构建路由列表
-     */
     async buildRoutesAction(): Promise<AppRouteRecordRaw[]> {
       const { t } = useI18n();
       const userStore = useUserStore();
@@ -121,7 +103,6 @@ export const usePermissionStore = defineStore({
 
       let routes: AppRouteRecordRaw[] = [];
       const roleList = toRaw(userStore.getRoleList) || [];
-      // 获取权限模式
       const { permissionMode = projectSetting.permissionMode } = appStore.getProjectConfig;
 
       const routeFilter = (route: AppRouteRecordRaw) => {
@@ -166,22 +147,18 @@ export const usePermissionStore = defineStore({
         }
         return;
       };
-      // 区分权限模式
+
       switch (permissionMode) {
-        // 前端方式控制(菜单和路由分开配置)
         case PermissionModeEnum.ROLE:
-          // 根据权限过滤路由
           routes = filter(asyncRoutes, routeFilter);
           routes = routes.filter(routeFilter);
-          // Convert multi-level routing to level 2 routing  将多级路由转换为二级路由
+          // Convert multi-level routing to level 2 routing
           routes = flatMultiLevelRoutes(routes);
           break;
-        // 前端方式控制(菜单由路由配置自动生成)
+
         case PermissionModeEnum.ROUTE_MAPPING:
-          // 根据权限过滤路由
           routes = filter(asyncRoutes, routeFilter);
           routes = routes.filter(routeFilter);
-          // 通过转换路由生成菜单
           const menuList = transformRouteToMenu(routes, true);
           routes = filter(routes, routeRemoveIgnoreFilter);
           routes = routes.filter(routeRemoveIgnoreFilter);
@@ -189,14 +166,12 @@ export const usePermissionStore = defineStore({
             return (a.meta?.orderNo || 0) - (b.meta?.orderNo || 0);
           });
 
-          // 通过转换路由生成菜单
           this.setFrontMenuList(menuList);
-          // Convert multi-level routing to level 2 routing 将多级路由转换为二级路由
+          // Convert multi-level routing to level 2 routing
           routes = flatMultiLevelRoutes(routes);
           break;
 
         //  If you are sure that you do not need to do background dynamic permissions, please comment the entire judgment below
-        // 后台方式控制
         case PermissionModeEnum.BACK:
           const { createMessage } = useMessage();
 
@@ -207,7 +182,7 @@ export const usePermissionStore = defineStore({
 
           // !Simulate to obtain permission codes from the background,
           // this function may only need to be executed once, and the actual project can be put at the right time by itself
-          let routeList: AppRouteRecordRaw[] = []; // 获取后台返回的菜单配置
+          let routeList: AppRouteRecordRaw[] = [];
           try {
             this.changePermissionCode();
             routeList = (await getMenuList()) as AppRouteRecordRaw[];
@@ -219,16 +194,13 @@ export const usePermissionStore = defineStore({
           routeList = transformObjToRoute(routeList);
 
           //  Background routing to menu structure
-          // 通过转换路由生成菜单
           const backMenuList = transformRouteToMenu(routeList);
-          // 设置菜单列表
           this.setBackMenuList(backMenuList);
 
           // remove meta.ignoreRoute item
           routeList = filter(routeList, routeRemoveIgnoreFilter);
           routeList = routeList.filter(routeRemoveIgnoreFilter);
 
-          // 设置保存菜单列表
           routeList = flatMultiLevelRoutes(routeList);
           routes = [PAGE_NOT_FOUND_ROUTE, ...routeList];
           break;
