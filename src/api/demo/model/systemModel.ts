@@ -7,7 +7,17 @@ export type AccountParams = BasicPageParams & {
 
 export type RoleParams = {
   roleName?: string;
-  status?: string;
+  roleCode?: string;
+  roleDesc?: string;
+};
+
+export type RoleEditParams = {
+  roleId: string;
+  roleCode: string;
+  roleName: string;
+  roleDesc?: string;
+  dsType: number;
+  dsScope?: string;
 };
 
 export type RolePageParams = BasicPageParams & RoleParams;
@@ -72,3 +82,17 @@ export type MenuListGetResultModel = BasicFetchResult<MenuListItem>;
 export type RolePageListGetResultModel = BasicFetchResult<RoleListItem>;
 
 export type RoleListGetResultModel = RoleListItem[];
+
+/**
+ * 角色实体
+ * @export
+ * @interface RoleItem
+ */
+// export interface RoleItem {
+//   roleId: string;
+//   roleCode: string;
+//   roleName: string;
+//   roleDesc?: string;
+//   dsType: number;
+//   dsScope?: string;
+// }

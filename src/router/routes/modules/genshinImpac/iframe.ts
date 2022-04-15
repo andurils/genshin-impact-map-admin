@@ -10,7 +10,7 @@ const iframe: AppRouteModule = {
   component: LAYOUT,
   redirect: '/frame/doc',
   meta: {
-    orderNo: 1000,
+    orderNo: 15,
     icon: 'ion:tv-outline',
     title: t('routes.demo.iframe.frame'),
   },
@@ -21,25 +21,24 @@ const iframe: AppRouteModule = {
       name: 'Doc',
       component: IFrame,
       meta: {
-        frameSrc: 'https://vvbin.cn/doc-next/',
-        title: t('routes.demo.iframe.doc'),
+        frameSrc: 'https://yuanshen.site/docs/',
+        title: '原神地图',
       },
     },
     {
-      path: 'antv',
-      name: 'Antv',
+      path: 'http://api.yuanshen.site:8089/api/swagger-ui.html',
+      name: 'Swagger',
       component: IFrame,
       meta: {
-        frameSrc: 'https://2x.antdv.com/docs/vue/introduce-cn/',
-        title: t('routes.demo.iframe.antv'),
+        title: '接口文档',
       },
     },
     {
-      path: 'https://vvbin.cn/doc-next/',
+      path: 'https://genshin-impact.fandom.com/wiki/Genshin_Impact_Wiki',
       name: 'DocExternal',
       component: IFrame,
       meta: {
-        title: t('routes.demo.iframe.docExternal'),
+        title: '原神Wiki',
       },
     },
   ],

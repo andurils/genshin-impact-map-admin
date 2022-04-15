@@ -2,13 +2,14 @@ import {
   AccountParams,
   DeptListItem,
   MenuParams,
-  // RoleParams,
+  RoleParams,
   RolePageParams,
   MenuListGetResultModel,
   DeptListGetResultModel,
   AccountListGetResultModel,
   RolePageListGetResultModel,
   RoleListGetResultModel,
+  RoleEditParams,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
 
@@ -19,6 +20,7 @@ enum Api {
   setRoleStatus = '/system/setRoleStatus',
   MenuList = '/system/getMenuList',
   RolePageList = '/system/getRoleListByPage',
+
   GetAllRoleList = '/api/role/list',
 }
 
@@ -55,6 +57,9 @@ export const getRoleListByPage = (params?: RolePageParams) =>
 //     { isTransformResponse: false },
 //   );
 
+/**
+ * @description: 角色列表
+ */
 export const getAllRoleList = () =>
   defHttp.get<RoleListGetResultModel>(
     {
@@ -65,6 +70,53 @@ export const getAllRoleList = () =>
       withToken: true,
     },
   );
+
+/**
+ * @description: 新增角色
+ */
+export function saveRole(params?: RoleParams) {
+  return defHttp.post<boolean>(
+    {
+      url: '/api/role',
+      params,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+
+/**
+ * @description: 更新角色
+ */
+export function updateRole(params?: RoleEditParams) {
+  return defHttp.put<boolean>(
+    {
+      url: '/api/role',
+      params,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+
+/**
+ * @description: 删除角色
+ */
+export function deleteRole(id: number) {
+  return defHttp.delete<boolean>(
+    {
+      url: `/api/role/${id}`,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
 
 export const setRoleStatus = (id: number, status: string) =>
   defHttp.post({ url: Api.setRoleStatus, params: { id, status } }, { isTransformResponse: false });

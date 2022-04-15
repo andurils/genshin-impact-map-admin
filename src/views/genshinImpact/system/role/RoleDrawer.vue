@@ -8,7 +8,7 @@
     @ok="handleSubmit"
   >
     <BasicForm @register="registerForm">
-      <template #menu="{ model, field }">
+      <!-- <template #menu="{ model, field }">
         <BasicTree
           v-model:value="model[field]"
           :treeData="treeData"
@@ -17,7 +17,7 @@
           toolbar
           title="菜单分配"
         />
-      </template>
+      </template> -->
     </BasicForm>
   </BasicDrawer>
 </template>
@@ -26,17 +26,16 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './role.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { BasicTree, TreeItem } from '/@/components/Tree';
-
-  import { getMenuList } from '/@/api/demo/system';
+  import { saveRole, updateRole } from '/@/api/demo/system';
+  import { RoleParams, RoleEditParams } from '/@/api/demo/model/systemModel';
 
   export default defineComponent({
     name: 'RoleDrawer',
-    components: { BasicDrawer, BasicForm, BasicTree },
+    components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
-      const treeData = ref<TreeItem[]>([]);
+      const updateRecord = ref<RoleEditParams>();
 
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 90,
@@ -47,16 +46,14 @@
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
         resetFields();
         setDrawerProps({ confirmLoading: false });
-        // 需要在setFieldsValue之前先填充treeData，否则Tree组件可能会报key not exist警告
-        if (unref(treeData).length === 0) {
-          treeData.value = (await getMenuList()) as any as TreeItem[];
-        }
+
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
           setFieldsValue({
             ...data.record,
           });
+          updateRecord.value = data.record;
         }
       });
 
@@ -66,10 +63,27 @@
         try {
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
-          // TODO custom api
-          console.log(values);
+
+          if (unref(isUpdate)) {
+            // update
+            const roleParam: RoleEditParams = {
+              ...updateRecord.value,
+              ...values,
+            };
+            console.log('update', roleParam);
+            await updateRole(roleParam);
+            emit('success', `角色 [${updateRecord.value?.roleName}] 更新成功!`);
+          } else {
+            // create
+            const roleParam: RoleParams = {
+              ...values,
+              dsType: 0, // 数据权限不能为空 使用默认值
+            };
+            await saveRole(roleParam);
+            emit('success', `角色 [${roleParam.roleName}] 新建成功!`);
+          }
+
           closeDrawer();
-          emit('success');
         } finally {
           setDrawerProps({ confirmLoading: false });
         }
@@ -80,7 +94,6 @@
         registerForm,
         getTitle,
         handleSubmit,
-        treeData,
       };
     },
   });
