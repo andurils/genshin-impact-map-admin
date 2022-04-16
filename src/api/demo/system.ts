@@ -1,7 +1,6 @@
 import {
   AccountParams,
   DeptListItem,
-  MenuParams,
   RoleParams,
   RolePageParams,
   MenuListGetResultModel,
@@ -10,6 +9,7 @@ import {
   RolePageListGetResultModel,
   RoleListGetResultModel,
   RoleEditParams,
+  MenuEditParams,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
 
@@ -18,9 +18,10 @@ enum Api {
   IsAccountExist = '/system/accountExist',
   DeptList = '/system/getDeptList',
   setRoleStatus = '/system/setRoleStatus',
-  MenuList = '/system/getMenuList',
+
   RolePageList = '/system/getRoleListByPage',
 
+  GetMenuTreeList = '/api/menu/tree',
   GetAllRoleList = '/api/role/list',
 }
 
@@ -57,6 +58,7 @@ export const getRoleListByPage = (params?: RolePageParams) =>
 //     { isTransformResponse: false },
 //   );
 
+// 角色管理API
 /**
  * @description: 角色列表
  */
@@ -117,6 +119,29 @@ export function deleteRole(id: number) {
     },
   );
 }
+
+// 菜单管理API
+/**
+ * @description: 新增菜单
+ */
+export function saveMenu(params?: MenuEditParams) {
+  return defHttp.post<boolean>(
+    {
+      url: '/api/menu',
+      params,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+
+export const getMenuTreeList = () =>
+  defHttp.get<MenuListGetResultModel>(
+    { url: Api.GetMenuTreeList },
+    { apiUrl: '/genshin-impact', withToken: true },
+  );
 
 export const setRoleStatus = (id: number, status: string) =>
   defHttp.post({ url: Api.setRoleStatus, params: { id, status } }, { isTransformResponse: false });

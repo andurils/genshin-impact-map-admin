@@ -72,7 +72,7 @@
             };
             console.log('update', roleParam);
             await updateRole(roleParam);
-            emit('success', `角色 [${updateRecord.value?.roleName}] 更新成功!`);
+            emit('success', `角色 [${updateRecord.value?.roleName}] 编辑成功!`);
           } else {
             // create
             const roleParam: RoleParams = {
@@ -80,7 +80,7 @@
               dsType: 0, // 数据权限不能为空 使用默认值
             };
             await saveRole(roleParam);
-            emit('success', `角色 [${roleParam.roleName}] 新建成功!`);
+            emit('success', `角色 [${roleParam.roleName}] 新增成功!`);
           }
 
           closeDrawer();

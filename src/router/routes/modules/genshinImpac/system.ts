@@ -52,16 +52,7 @@ const system: AppRouteModule = {
         title: t('routes.demo.system.menu'),
         ignoreKeepAlive: true,
       },
-      component: () => import('/@/views/demo/system/menu/index.vue'),
-    },
-    {
-      path: 'dept',
-      name: 'DeptManagement',
-      meta: {
-        title: t('routes.demo.system.dept'),
-        ignoreKeepAlive: true,
-      },
-      component: () => import('/@/views/demo/system/dept/index.vue'),
+      component: () => import('/@/views/genshinImpact/system/menu/index.vue'),
     },
     {
       path: 'changePassword',

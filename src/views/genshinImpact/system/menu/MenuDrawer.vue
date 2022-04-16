@@ -15,8 +15,8 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-
-  import { getMenuList } from '/@/api/demo/system';
+  import { getMenuTreeList, saveMenu } from '/@/api/demo/system';
+  import { MenuEditParams } from '/@/api/demo/model/systemModel';
 
   export default defineComponent({
     name: 'MenuDrawer',
@@ -42,10 +42,12 @@
             ...data.record,
           });
         }
-        const treeData = await getMenuList();
+        const treeData = await getMenuTreeList();
+        console.log('treeeeeeeeeeeeeeee', treeData);
         updateSchema({
-          field: 'parentMenu',
+          field: 'parentId',
           componentProps: { treeData },
+          defaultValue: 7000, // 默认值选中
         });
       });
 
@@ -55,7 +57,14 @@
         try {
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
-          // TODO custom api
+
+          const menuParam: MenuEditParams = {
+            ...values,
+            parentId: -1, // 跟节点 -1
+          };
+          await saveMenu(menuParam);
+
+          // emit('success', `角色 [${roleParam.roleName}] 新建成功!`);
           console.log(values);
           closeDrawer();
           emit('success');
