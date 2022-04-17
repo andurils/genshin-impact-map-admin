@@ -30,19 +30,17 @@
         />
       </template>
     </BasicTable>
-    <RoleDrawer @register="registerDrawer" @success="handleSuccess" />
+    <RoleMenuDrawer @register="registerDrawer" @success="handleRoleMenuSuccess" />
     <RoleModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 <script lang="ts" setup>
-  // import { reactive, ref, unref, computed } from 'vue';
-
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { deleteRole, getAllRoleList } from '/@/api/demo/system';
+  import { deleteRole, getAllRoleList } from '/@/api/genshinImpact/system';
   import { useDrawer } from '/@/components/Drawer';
   import { useModal } from '/@/components/Modal';
   import RoleModal from './RoleModal.vue';
-  import RoleDrawer from './RoleDrawer.vue';
+  import RoleMenuDrawer from './RoleMenuDrawer.vue';
   import { columns } from './role.data';
   import { useMessage } from '/@/hooks/web/useMessage';
 
@@ -85,9 +83,7 @@
   function handleRoleMenuSet(record: Recordable) {
     openDrawer(true, {
       record,
-      isUpdate: true,
     });
-    console.log('分配角色菜单', record);
   }
 
   async function handleDelete(record: Recordable) {
@@ -103,5 +99,9 @@
   function handleSuccess(msg: string) {
     createMessage.success(msg);
     reload();
+  }
+  function handleRoleMenuSuccess(msg: string) {
+    createMessage.success(msg);
+    console.log(`handleRoleMenuSuccess`);
   }
 </script>

@@ -9,8 +9,8 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './role.data';
 
-  import { saveRole, updateRole } from '/@/api/demo/system';
-  import { RoleEditParams } from '/@/api/demo/model/systemModel';
+  import { saveRole, updateRole } from '/@/api/genshinImpact/system';
+  import { RoleEditParams } from '/@/api/genshinImpact/model/systemModel';
 
   export default defineComponent({
     name: 'RoleModal',

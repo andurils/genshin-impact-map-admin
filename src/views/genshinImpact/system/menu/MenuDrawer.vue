@@ -15,8 +15,8 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { getMenuTreeList, saveMenu, updateMenu } from '/@/api/demo/system';
-  import { MenuEditParams } from '/@/api/demo/model/systemModel';
+  import { getMenuTreeList, saveMenu, updateMenu } from '/@/api/genshinImpact/system';
+  import { MenuEditParams } from '/@/api/genshinImpact/model/systemModel';
 
   export default defineComponent({
     name: 'MenuDrawer',

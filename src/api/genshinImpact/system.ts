@@ -1,11 +1,5 @@
 import {
-  AccountParams,
-  DeptListItem,
-  RolePageParams,
   MenuListGetResultModel,
-  DeptListGetResultModel,
-  AccountListGetResultModel,
-  RolePageListGetResultModel,
   RoleListGetResultModel,
   RoleEditParams,
   MenuEditParams,
@@ -15,50 +9,10 @@ import {
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
-  AccountList = '/system/getAccountList',
-  IsAccountExist = '/system/accountExist',
-  DeptList = '/system/getDeptList',
-  setRoleStatus = '/system/setRoleStatus',
-  RolePageList = '/system/getRoleListByPage',
-  MenuList = '/system/getMenuList',
-
   // API
   GetMenuTreeList = '/api/menu/tree',
   GetAllRoleList = '/api/role/list',
 }
-
-export const getAccountList = (params: AccountParams) =>
-  defHttp.get<AccountListGetResultModel>(
-    { url: Api.AccountList, params },
-    { isTransformResponse: false },
-  );
-
-export const getDeptList = (params?: DeptListItem) =>
-  defHttp.get<DeptListGetResultModel>(
-    { url: Api.DeptList, params },
-    { isTransformResponse: false },
-  );
-
-export const getMenuList = (params?: MenuEditParams) =>
-  defHttp.get<MenuListGetResultModel>(
-    { url: Api.MenuList, params },
-    { isTransformResponse: false },
-  );
-
-export const getRoleListByPage = (params?: RolePageParams) =>
-  defHttp.get<RolePageListGetResultModel>(
-    { url: Api.RolePageList, params },
-    {
-      apiUrl: '/genshin-impact',
-      withToken: true,
-    },
-  );
-
-// export const getAllRoleList = (params?: RoleParams) =>
-//   defHttp.get<RoleListGetResultModel>(
-//     { url: Api.GetAllRoleList, params },
-//     { isTransformResponse: false },
-//   );
 
 // 角色管理API
 /**
@@ -201,12 +155,3 @@ export function saveRoleMenus(params: RoleMenuParams) {
     },
   );
 }
-
-export const setRoleStatus = (id: number, status: string) =>
-  defHttp.post({ url: Api.setRoleStatus, params: { id, status } }, { isTransformResponse: false });
-
-export const isAccountExist = (account: string) =>
-  defHttp.post(
-    { url: Api.IsAccountExist, params: { account } },
-    { errorMessageMode: 'none', isTransformResponse: false },
-  );

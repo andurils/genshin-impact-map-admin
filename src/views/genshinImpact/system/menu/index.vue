@@ -34,7 +34,7 @@
   // import { nextTick } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { deleteMenu, getMenuTreeList } from '/@/api/demo/system';
+  import { deleteMenu, getMenuTreeList } from '/@/api/genshinImpact/system';
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
   import { columns } from './menu.data';
