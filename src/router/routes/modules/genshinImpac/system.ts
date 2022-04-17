@@ -15,26 +15,26 @@ const system: AppRouteModule = {
   },
   children: [
     {
-      path: 'account',
-      name: 'AccountManagement',
+      path: 'user',
+      name: 'UserManagement',
       meta: {
-        title: t('routes.demo.system.account'),
+        title: '用户管理',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/demo/system/account/index.vue'),
+      component: () => import('/@/views/genshinImpact/system/user/index.vue'),
     },
-    {
-      path: 'account_detail/:id',
-      name: 'AccountDetail',
-      meta: {
-        hideMenu: true,
-        title: t('routes.demo.system.account_detail'),
-        ignoreKeepAlive: true,
-        showMenu: false,
-        currentActiveMenu: '/system/account',
-      },
-      component: () => import('/@/views/demo/system/account/AccountDetail.vue'),
-    },
+    // {
+    //   path: 'account_detail/:id',
+    //   name: 'AccountDetail',
+    //   meta: {
+    //     hideMenu: true,
+    //     title: t('routes.demo.system.account_detail'),
+    //     ignoreKeepAlive: true,
+    //     showMenu: false,
+    //     currentActiveMenu: '/system/account',
+    //   },
+    //   component: () => import('/@/views/genshinImpact/system/account/AccountDetail.vue'),
+    // },
     {
       path: 'role',
       name: 'RoleManagement',
@@ -61,7 +61,7 @@ const system: AppRouteModule = {
         title: t('routes.demo.system.password'),
         ignoreKeepAlive: true,
       },
-      component: () => import('/@/views/demo/system/password/index.vue'),
+      component: () => import('/@/views/genshinImpact/system/password/index.vue'),
     },
   ],
 };
