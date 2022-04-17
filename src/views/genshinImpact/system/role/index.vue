@@ -31,6 +31,7 @@
       </template>
     </BasicTable>
     <RoleDrawer @register="registerDrawer" @success="handleSuccess" />
+    <RoleModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -39,11 +40,14 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { deleteRole, getAllRoleList } from '/@/api/demo/system';
   import { useDrawer } from '/@/components/Drawer';
+  import { useModal } from '/@/components/Modal';
+  import RoleModal from './RoleModal.vue';
   import RoleDrawer from './RoleDrawer.vue';
   import { columns } from './role.data';
   import { useMessage } from '/@/hooks/web/useMessage';
 
   const { createMessage } = useMessage();
+  const [registerModal, { openModal }] = useModal();
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerTable, { reload }] = useTable({
     title: '角色列表',
@@ -54,10 +58,10 @@
     canResize: false, // 自适应高度
     // pagination: false, // 开启分页
     showTableSetting: true,
-    bordered: true,
+    bordered: false,
     showIndexColumn: true,
     actionColumn: {
-      width: 160,
+      width: 200,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -66,19 +70,23 @@
   });
 
   function handleCreate() {
-    openDrawer(true, {
+    openModal(true, {
       isUpdate: false,
     });
   }
 
   function handleEdit(record: Recordable) {
-    openDrawer(true, {
+    openModal(true, {
       record,
       isUpdate: true,
     });
   }
 
   function handleRoleMenuSet(record: Recordable) {
+    openDrawer(true, {
+      record,
+      isUpdate: true,
+    });
     console.log('分配角色菜单', record);
   }
 

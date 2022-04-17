@@ -12,7 +12,7 @@ export type RoleParams = {
 };
 
 export type RoleEditParams = {
-  roleId: string;
+  roleId?: string;
   roleCode: string;
   roleName: string;
   roleDesc?: string;
@@ -29,14 +29,14 @@ export type DeptParams = {
 
 export type MenuEditParams = {
   menuId?: number; //菜单id
-  name?: string; // 菜单名称
-  parentId?: number; // 菜单父id
+  name: string; // 菜单名称
+  type: string; // 菜单类型,0:菜单 1:按钮
+  parentId: number; // 菜单父id
+  sort?: number; // 排序值
   icon?: string; //菜单图标
   keepAlive?: string; //路由缓冲
   path?: string; // 前端路由标识路径
   permission?: string; // 菜单权限标识
-  sort?: number; // 排序值
-  type?: number; // 菜单类型,0:菜单 1:按钮
 };
 
 export interface AccountListItem {

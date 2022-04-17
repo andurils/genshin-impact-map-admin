@@ -1,7 +1,6 @@
 import {
   AccountParams,
   DeptListItem,
-  RoleParams,
   RolePageParams,
   MenuListGetResultModel,
   DeptListGetResultModel,
@@ -18,9 +17,10 @@ enum Api {
   IsAccountExist = '/system/accountExist',
   DeptList = '/system/getDeptList',
   setRoleStatus = '/system/setRoleStatus',
-
   RolePageList = '/system/getRoleListByPage',
+  MenuList = '/system/getMenuList',
 
+  // API
   GetMenuTreeList = '/api/menu/tree',
   GetAllRoleList = '/api/role/list',
 }
@@ -37,7 +37,7 @@ export const getDeptList = (params?: DeptListItem) =>
     { isTransformResponse: false },
   );
 
-export const getMenuList = (params?: MenuParams) =>
+export const getMenuList = (params?: MenuEditParams) =>
   defHttp.get<MenuListGetResultModel>(
     { url: Api.MenuList, params },
     { isTransformResponse: false },
@@ -76,7 +76,7 @@ export const getAllRoleList = () =>
 /**
  * @description: 新增角色
  */
-export function saveRole(params?: RoleParams) {
+export function saveRole(params?: RoleEditParams) {
   return defHttp.post<boolean>(
     {
       url: '/api/role',
@@ -129,6 +129,35 @@ export function saveMenu(params?: MenuEditParams) {
     {
       url: '/api/menu',
       params,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+/**
+ * @description: 更新角色
+ */
+export function updateMenu(params?: MenuEditParams) {
+  return defHttp.put<boolean>(
+    {
+      url: '/api/menu',
+      params,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+/**
+ * @description: 删除菜单
+ */
+export function deleteMenu(id: number) {
+  return defHttp.delete<boolean>(
+    {
+      url: `/api/menu/${id}`,
     },
     {
       apiUrl: '/genshin-impact',

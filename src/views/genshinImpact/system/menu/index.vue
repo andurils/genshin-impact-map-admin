@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <BasicTable @register="registerTable" @fetch-success="onFetchSuccess">
       <template #toolbar>
         <a-button type="primary" @click="expandAll">展开全部</a-button>
@@ -11,11 +11,13 @@
           :actions="[
             {
               icon: 'clarity:note-edit-line',
+              tooltip: '编辑菜单信息',
               onClick: handleEdit.bind(null, record),
             },
             {
               icon: 'ant-design:delete-outlined',
               color: 'error',
+              tooltip: '删除此菜单',
               popConfirm: {
                 title: '是否确认删除',
                 confirm: handleDelete.bind(null, record),
@@ -32,33 +34,29 @@
   // import { nextTick } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getMenuTreeList } from '/@/api/demo/system';
-
+  import { deleteMenu, getMenuTreeList } from '/@/api/demo/system';
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
+  import { columns } from './menu.data';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
-  import { columns, searchFormSchema } from './menu.data';
-
+  const { createMessage } = useMessage();
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerTable, { reload, expandAll, collapseAll }] = useTable({
     title: '菜单列表',
     api: getMenuTreeList,
     columns,
-    formConfig: {
-      labelWidth: 120,
-      schemas: searchFormSchema,
-    },
     rowKey: 'id',
     isTreeTable: true,
     pagination: false,
     striped: false,
-    useSearchForm: true,
+    // useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     showIndexColumn: false,
     canResize: false,
     actionColumn: {
-      width: 80,
+      width: 120,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -79,11 +77,17 @@
     });
   }
 
-  function handleDelete(record: Recordable) {
-    console.log(record);
+  async function handleDelete(record: Recordable) {
+    const { id, name } = record;
+    const isDeleted = await deleteMenu(id);
+    if (isDeleted) {
+      createMessage.success(`菜单 [${name}] 删除成功!`);
+      reload();
+    }
   }
 
-  function handleSuccess() {
+  function handleSuccess(msg: string) {
+    createMessage.success(msg);
     reload();
   }
 

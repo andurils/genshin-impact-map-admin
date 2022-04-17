@@ -1,52 +1,34 @@
 <template>
-  <BasicDrawer
-    v-bind="$attrs"
-    @register="registerDrawer"
-    showFooter
-    :title="getTitle"
-    width="500px"
-    @ok="handleSubmit"
-  >
-    <BasicForm @register="registerForm">
-      <!-- <template #menu="{ model, field }">
-        <BasicTree
-          v-model:value="model[field]"
-          :treeData="treeData"
-          :fieldNames="{ title: 'menuName', key: 'id' }"
-          checkable
-          toolbar
-          title="菜单分配"
-        />
-      </template> -->
-    </BasicForm>
-  </BasicDrawer>
+  <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
+    <BasicForm @register="registerForm" />
+  </BasicModal>
 </template>
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
+  import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './role.data';
-  import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+
   import { saveRole, updateRole } from '/@/api/demo/system';
-  import { RoleParams, RoleEditParams } from '/@/api/demo/model/systemModel';
+  import { RoleEditParams } from '/@/api/demo/model/systemModel';
 
   export default defineComponent({
-    name: 'RoleDrawer',
-    components: { BasicDrawer, BasicForm },
+    name: 'RoleModal',
+    components: { BasicModal, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
       const updateRecord = ref<RoleEditParams>();
 
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-        labelWidth: 90,
+        labelWidth: 100,
         schemas: formSchema,
         showActionButtonGroup: false,
       });
 
-      const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+      const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
         resetFields();
-        setDrawerProps({ confirmLoading: false });
-
+        setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
@@ -62,7 +44,7 @@
       async function handleSubmit() {
         try {
           const values = await validate();
-          setDrawerProps({ confirmLoading: true });
+          setModalProps({ confirmLoading: true });
 
           const roleParam: RoleEditParams = {
             dsType: 0, // 数据权限不能为空 使用默认值
@@ -77,18 +59,13 @@
           }
 
           emit('success', `角色 [${roleParam.roleName}] ${unref(isUpdate) ? '编辑' : '新增'}成功!`);
-          closeDrawer();
+          closeModal();
         } finally {
-          setDrawerProps({ confirmLoading: false });
+          setModalProps({ confirmLoading: false });
         }
       }
 
-      return {
-        registerDrawer,
-        registerForm,
-        getTitle,
-        handleSubmit,
-      };
+      return { registerModal, registerForm, getTitle, handleSubmit };
     },
   });
 </script>

@@ -15,7 +15,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { getMenuTreeList, saveMenu } from '/@/api/demo/system';
+  import { getMenuTreeList, saveMenu, updateMenu } from '/@/api/demo/system';
   import { MenuEditParams } from '/@/api/demo/model/systemModel';
 
   export default defineComponent({
@@ -24,6 +24,7 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
+      const updateRecord = ref<MenuEditParams>();
 
       const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
         labelWidth: 100,
@@ -38,16 +39,41 @@
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
+          // 字段赋值 处理
+          data.record.menuId = data.record.id;
+          data.record.parentId = data.record.parentId === -1 ? null : data.record.parentId;
+
           setFieldsValue({
             ...data.record,
           });
+
+          // 设置默认值
+          updateSchema([
+            {
+              field: 'type',
+              defaultValue: data.record.type,
+            },
+            {
+              field: 'keepAlive',
+              defaultValue: data.record.keepAlive,
+            },
+          ]);
+
+          updateRecord.value = data.record;
         }
-        const treeData = await getMenuTreeList();
-        console.log('treeeeeeeeeeeeeeee', treeData);
+
+        let treeData = await getMenuTreeList();
+        //  选择父级菜单 移除本节点及子节点
+        if (unref(isUpdate) && updateRecord.value) {
+          const { menuId } = updateRecord.value as MenuEditParams;
+          deleteTreeNode(treeData, menuId);
+          console.log(treeData);
+        }
+
         updateSchema({
           field: 'parentId',
           componentProps: { treeData },
-          defaultValue: 7000, // 默认值选中
+          // defaultValue: 7000, // 默认值选中
         });
       });
 
@@ -59,18 +85,39 @@
           setDrawerProps({ confirmLoading: true });
 
           const menuParam: MenuEditParams = {
+            ...updateRecord.value,
             ...values,
-            parentId: -1, // 跟节点 -1
           };
-          await saveMenu(menuParam);
+          menuParam.parentId = menuParam.parentId ?? -1;
+          // 按钮类型
+          if (menuParam.type === '1') {
+            menuParam.icon = '';
+            menuParam.path = '';
+            menuParam.keepAlive = undefined;
+          }
+          console.log('create', menuParam);
 
-          // emit('success', `角色 [${roleParam.roleName}] 新建成功!`);
-          console.log(values);
+          if (unref(isUpdate)) {
+            await updateMenu(menuParam);
+          } else {
+            await saveMenu(menuParam);
+          }
+          emit('success', `菜单 [${menuParam.name}] ${unref(isUpdate) ? '编辑' : '新增'}成功!`);
           closeDrawer();
-          emit('success');
         } finally {
           setDrawerProps({ confirmLoading: false });
         }
+      }
+
+      function deleteTreeNode(treeData, targetId) {
+        treeData.forEach((item, index) => {
+          if (item.id === targetId) {
+            treeData.splice(index, 1);
+          }
+          if (item.children) {
+            deleteTreeNode(item.children, targetId);
+          }
+        });
       }
 
       return { registerDrawer, registerForm, getTitle, handleSubmit };
