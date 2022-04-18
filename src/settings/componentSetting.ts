@@ -5,20 +5,20 @@ import type { SorterResult } from '../components/Table';
 export default {
   // basic-table setting
   table: {
-    // Form interface request general configuration
+    // Form interface request general configuration   表格分页参数请求配置
     // support xxx.xxx.xxx
     fetchSetting: {
       // The field name of the current page passed to the background
-      pageField: 'page',
+      pageField: 'current', //'page',
       // The number field name of each page displayed in the background
-      sizeField: 'pageSize',
+      sizeField: 'size', // 'pageSize',
       // Field name of the form data returned by the interface
-      listField: 'items',
+      listField: 'records', // items
       // Total number of tables returned by the interface field name
       totalField: 'total',
     },
     // Number of pages that can be selected
-    pageSizeOptions: ['10', '50', '80', '100'],
+    pageSizeOptions: ['10', '20', '50', '100'],
     // Default display quantity on one page
     defaultPageSize: 10,
     // Default Size

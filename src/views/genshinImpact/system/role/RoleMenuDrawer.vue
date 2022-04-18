@@ -31,7 +31,7 @@
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree';
 
   import { getMenuTreeList, getRoleMenuList, saveRoleMenus } from '/@/api/genshinImpact/system';
-  import { RoleEditParams, RoleMenuParams } from '/@/api/genshinImpact/model/systemModel';
+  import { RoleEditParams, RoleMenuModel } from '/@/api/genshinImpact/model/systemModel';
 
   export default defineComponent({
     name: 'RoleMenuDrawer',
@@ -70,7 +70,7 @@
           let checkedMenuIds = toRaw(handleGetCheckData()) as KeyType[];
 
           console.log(checkedMenuIds.join());
-          const roleMenuParam: RoleMenuParams = {
+          const roleMenuParam: RoleMenuModel = {
             roleId: roleId!,
             menuIds: checkedMenuIds.join(),
           };

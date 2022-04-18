@@ -8,11 +8,6 @@
         <TableAction
           :actions="[
             {
-              icon: 'clarity:info-standard-line',
-              tooltip: '查看用户详情',
-              onClick: handleView.bind(null, record),
-            },
-            {
               icon: 'clarity:note-edit-line',
               tooltip: '编辑用户资料',
               onClick: handleEdit.bind(null, record),
@@ -37,28 +32,29 @@
   import { reactive } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getAccountList } from '/@/api/demo/system';
   import { PageWrapper } from '/@/components/Page';
-
   import { useModal } from '/@/components/Modal';
+  import { useMessage } from '/@/hooks/web/useMessage';
   import UserModal from './UserModal.vue';
-
   import { columns, searchFormSchema } from './user.data';
-  import { useGo } from '/@/hooks/web/usePage';
+  // import { useGo } from '/@/hooks/web/usePage';
+  import { deleteUser, getUserPageList } from '/@/api/genshinImpact/system';
 
-  const go = useGo();
+  // const go = useGo();
+  const { createMessage } = useMessage();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
-    title: '账号列表',
-    api: getAccountList,
-    rowKey: 'id',
+    title: '用户列表',
+    api: getUserPageList,
+    rowKey: 'userId',
     columns,
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
       autoSubmitOnEnter: true,
     },
+    showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
@@ -88,15 +84,20 @@
     });
   }
 
-  function handleDelete(record: Recordable) {
-    console.log(record);
+  async function handleDelete(record: Recordable) {
+    const { userId, username } = record;
+    const isDeleted = await deleteUser(userId);
+    if (isDeleted) {
+      createMessage.success(`用户[${username}]删除成功!`);
+      reload();
+    }
   }
 
   function handleSuccess({ isUpdate, values }) {
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.id, values);
+      const result = updateTableDataRecord(values.userId, values);
       console.log(result);
     } else {
       reload();
@@ -108,7 +109,7 @@
   //   reload();
   // }
 
-  function handleView(record: Recordable) {
-    go('/system/account_detail/' + record.id);
-  }
+  // function handleView(record: Recordable) {
+  //   go('/system/account_detail/' + record.id);
+  // }
 </script>

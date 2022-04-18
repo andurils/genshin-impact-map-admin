@@ -16,7 +16,7 @@
   import { formSchema } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { getMenuTreeList, saveMenu, updateMenu } from '/@/api/genshinImpact/system';
-  import { MenuEditParams } from '/@/api/genshinImpact/model/systemModel';
+  import { MenuModel } from '/@/api/genshinImpact/model/systemModel';
 
   export default defineComponent({
     name: 'MenuDrawer',
@@ -24,7 +24,7 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
-      const updateRecord = ref<MenuEditParams>();
+      const updateRecord = ref<MenuModel>();
 
       const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
         labelWidth: 100,
@@ -65,9 +65,8 @@
         let treeData = await getMenuTreeList();
         //  选择父级菜单 移除本节点及子节点
         if (unref(isUpdate) && updateRecord.value) {
-          const { menuId } = updateRecord.value as MenuEditParams;
+          const { menuId } = updateRecord.value as MenuModel;
           deleteTreeNode(treeData, menuId);
-          console.log(treeData);
         }
 
         updateSchema({
@@ -84,7 +83,7 @@
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
 
-          const menuParam: MenuEditParams = {
+          const menuParam: MenuModel = {
             ...updateRecord.value,
             ...values,
           };
@@ -95,7 +94,6 @@
             menuParam.path = '';
             menuParam.keepAlive = undefined;
           }
-          console.log('create', menuParam);
 
           if (unref(isUpdate)) {
             await updateMenu(menuParam);

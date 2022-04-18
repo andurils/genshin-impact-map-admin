@@ -1,17 +1,27 @@
-import { BasicPageParams, BasicFetchResult } from '/@/api/model/baseModel';
+import { BasicPageParams, BasicFetchPageResult } from '/@/api/model/baseModel';
 
-export type AccountParams = BasicPageParams & {
-  account?: string;
-  nickname?: string;
+/*********** 查询参数 ***********/
+// 用户分页查询参数
+export type UserParams = BasicPageParams & {
+  username?: string;
+  // nickname?: string;
 };
 
+// 角色查询参数
 export type RoleParams = {
   roleName?: string;
   roleCode?: string;
   roleDesc?: string;
 };
 
-export type RoleEditParams = {
+// 菜单查询参数
+export type MenuParams = {
+  parentId?: number; // 菜单父id
+};
+
+/*********** 新增/更新 实体 ***********/
+/*角色实体*/
+export type RoleModel = {
   roleId?: number;
   roleCode: string;
   roleName: string;
@@ -19,25 +29,8 @@ export type RoleEditParams = {
   dsType: number;
   dsScope?: string;
 };
-
-export type RolePageParams = BasicPageParams & RoleParams;
-
-export type DeptParams = {
-  deptName?: string;
-  status?: string;
-};
-
-export type MenuParams = {
-  parentId?: number; // 菜单父id
-};
-
-// 角色菜单
-export type RoleMenuParams = {
-  menuIds?: string;
-  roleId: number;
-};
-
-export type MenuEditParams = {
+/*菜单实体*/
+export type MenuModel = {
   menuId?: number; //菜单id
   name: string; // 菜单名称
   type: string; // 菜单类型,0:菜单 1:按钮
@@ -49,25 +42,49 @@ export type MenuEditParams = {
   permission?: string; // 菜单权限标识
 };
 
-export interface AccountListItem {
-  id: string;
-  account: string;
-  email: string;
-  nickname: string;
-  role: number;
-  createTime: string;
-  remark: string;
-  status: number;
+/*角色菜单实体*/
+export type RoleMenuModel = {
+  roleId: number;
+  menuIds?: string;
+};
+
+/*用户实体*/
+export type UserModel = {
+  userId?: number;
+  username: string;
+  role: number[];
+  password: string;
+  newpassword1?: string;
+  // giteeLogin?: string;
+  lockFlag: string; // 锁定状态
+  deptId?: number; // 部门
+  avatar?: string;
+  version?: number;
+};
+
+/*********** 查询列表实体 ***********/
+// 用户列表项实体
+export interface UserListItem {
+  userId: number;
+  username: string;
+  password: string;
+  avatar?: string;
+  delFlag: string; // 删除标记,1:已删除,0:正常
+  lockFlag: string; // 锁定标记,0:正常,9:已锁定
+  roleList: RoleListItem[];
 }
 
-export interface DeptListItem {
-  id: string;
-  orderNo: string;
-  createTime: string;
-  remark: string;
-  status: number;
+// 角色列表项实体
+export interface RoleListItem {
+  roleId: number;
+  roleName: string;
+  roleCode: string;
+  roleDesc: string;
+  dsScope: string;
+  dsType: number;
 }
 
+// 菜单列表项实体
 export interface MenuListItem {
   id: string;
   orderNo: string;
@@ -78,38 +95,9 @@ export interface MenuListItem {
   permission: string;
 }
 
-export interface RoleListItem {
-  id: string;
-  roleName: string;
-  roleValue: string;
-  status: number;
-  orderNo: string;
-  createTime: string;
-}
-
 /**
  * @description: Request list return value
  */
-export type AccountListGetResultModel = BasicFetchResult<AccountListItem>;
-
-export type DeptListGetResultModel = BasicFetchResult<DeptListItem>;
-
-export type MenuListGetResultModel = BasicFetchResult<MenuListItem>;
-
-export type RolePageListGetResultModel = BasicFetchResult<RoleListItem>;
-
+export type UserPageListGetResultModel = BasicFetchPageResult<UserListItem>; // 用户分页实体
 export type RoleListGetResultModel = RoleListItem[];
-
-/**
- * 角色实体
- * @export
- * @interface RoleItem
- */
-// export interface RoleItem {
-//   roleId: string;
-//   roleCode: string;
-//   roleName: string;
-//   roleDesc?: string;
-//   dsType: number;
-//   dsScope?: string;
-// }
+export type MenuListGetResultModel = MenuListItem[];

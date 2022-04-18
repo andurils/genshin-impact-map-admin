@@ -1,10 +1,13 @@
 import {
   MenuListGetResultModel,
   RoleListGetResultModel,
-  RoleEditParams,
-  MenuEditParams,
   MenuParams,
-  RoleMenuParams,
+  UserParams,
+  UserPageListGetResultModel,
+  RoleMenuModel,
+  RoleModel,
+  MenuModel,
+  UserModel,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
 
@@ -12,9 +15,10 @@ enum Api {
   // API
   GetMenuTreeList = '/api/menu/tree',
   GetAllRoleList = '/api/role/list',
+  GetUserPageList = '/api/user/page',
 }
 
-// 角色管理API
+/********************** 角色管理API **********************/
 /**
  * @description: 角色列表
  */
@@ -32,7 +36,7 @@ export const getAllRoleList = () =>
 /**
  * @description: 新增角色
  */
-export function saveRole(params?: RoleEditParams) {
+export function saveRole(params: RoleModel) {
   return defHttp.post<boolean>(
     {
       url: '/api/role',
@@ -48,7 +52,7 @@ export function saveRole(params?: RoleEditParams) {
 /**
  * @description: 更新角色
  */
-export function updateRole(params?: RoleEditParams) {
+export function updateRole(params: RoleModel) {
   return defHttp.put<boolean>(
     {
       url: '/api/role',
@@ -76,11 +80,11 @@ export function deleteRole(roleId: number) {
   );
 }
 
-// 菜单管理API
+/********************** 菜单管理API **********************/
 /**
  * @description: 新增菜单
  */
-export function saveMenu(params?: MenuEditParams) {
+export function saveMenu(params: MenuModel) {
   return defHttp.post<boolean>(
     {
       url: '/api/menu',
@@ -95,7 +99,7 @@ export function saveMenu(params?: MenuEditParams) {
 /**
  * @description: 更新角色
  */
-export function updateMenu(params?: MenuEditParams) {
+export function updateMenu(params: MenuModel) {
   return defHttp.put<boolean>(
     {
       url: '/api/menu',
@@ -110,10 +114,10 @@ export function updateMenu(params?: MenuEditParams) {
 /**
  * @description: 删除菜单
  */
-export function deleteMenu(id: number) {
+export function deleteMenu(menuId: number) {
   return defHttp.delete<boolean>(
     {
-      url: `/api/menu/${id}`,
+      url: `/api/menu/${menuId}`,
     },
     {
       apiUrl: '/genshin-impact',
@@ -143,7 +147,7 @@ export const getRoleMenuList = (roleId: number) =>
 /**
  * @description: 分配角色菜单
  */
-export function saveRoleMenus(params: RoleMenuParams) {
+export function saveRoleMenus(params: RoleMenuModel) {
   return defHttp.put<boolean>(
     {
       url: '/api/role/menu',
@@ -155,3 +159,65 @@ export function saveRoleMenus(params: RoleMenuParams) {
     },
   );
 }
+
+/********************** 用户管理 API **********************/
+/**
+ * @description: 获取用户分页列表
+ */
+export const getUserPageList = (params: UserParams) =>
+  defHttp.get<UserPageListGetResultModel>(
+    { url: Api.GetUserPageList, params },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+
+/**
+ * @description: 新增角色
+ */
+export function saveUser(params: UserModel) {
+  return defHttp.post<boolean>(
+    {
+      url: '/api/user',
+      params,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+
+/**
+ * @description: 更新角色
+ */
+export function updateUser(params: UserModel) {
+  return defHttp.put<boolean>(
+    {
+      url: '/api/user',
+      params,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+
+/**
+ * @description: 删除用户
+ */
+export function deleteUser(userId: number) {
+  return defHttp.delete<boolean>(
+    {
+      url: `/api/user/${userId}`,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+// export const setUserLockStatus = (id: number, status: string) =>
+//   defHttp.post({ url: Api.setRoleStatus, params: { id, status } }, { isTransformResponse: false });

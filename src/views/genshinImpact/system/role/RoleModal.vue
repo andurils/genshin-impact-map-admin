@@ -10,7 +10,7 @@
   import { formSchema } from './role.data';
 
   import { saveRole, updateRole } from '/@/api/genshinImpact/system';
-  import { RoleEditParams } from '/@/api/genshinImpact/model/systemModel';
+  import { RoleModel } from '/@/api/genshinImpact/model/systemModel';
 
   export default defineComponent({
     name: 'RoleModal',
@@ -18,7 +18,7 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
-      const updateRecord = ref<RoleEditParams>();
+      const updateRecord = ref<RoleModel>();
 
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 100,
@@ -46,7 +46,7 @@
           const values = await validate();
           setModalProps({ confirmLoading: true });
 
-          const roleParam: RoleEditParams = {
+          const roleParam: RoleModel = {
             dsType: 0, // 数据权限不能为空 使用默认值
             ...updateRecord.value,
             ...values,
