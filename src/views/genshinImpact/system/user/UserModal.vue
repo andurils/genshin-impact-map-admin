@@ -18,10 +18,11 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { userFormSchema } from './user.data';
-  import { RoleListItem, UserModel } from '/@/api/genshinImpact/model/systemModel';
+  import { RoleListItem, UserListItem, UserModel } from '/@/api/genshinImpact/model/systemModel';
   import { saveUser, updateUser } from '/@/api/genshinImpact/system';
   import { Select } from 'ant-design-vue';
   import { getAllRoleList } from '/@/api/genshinImpact/system';
+  import { encryptByMd5 } from '/@/utils/cipher';
 
   export default defineComponent({
     name: 'UserModal',
@@ -31,9 +32,7 @@
       const isUpdate = ref(true);
       const roleList = ref<RoleListItem[]>([]);
       const options = ref<Recordable[]>([]); // 角色selectOption 节点
-
-      // const rowId = ref('');
-      const updateRecord = ref<UserModel>();
+      const updateRecord = ref<UserListItem>();
 
       const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
         labelWidth: 100,
@@ -55,38 +54,24 @@
           options.value.push({ label: `${item.roleName}`, value: item.roleId });
         });
 
+        updateSchema([
+          {
+            field: 'password',
+            show: !unref(isUpdate),
+          },
+          {
+            field: 'lockFlag',
+            defaultValue: '0',
+          },
+        ]);
+
         if (unref(isUpdate)) {
+          data.record.role = data.record.roleList.map((item) => item.roleId); // 角色数据处理
           setFieldsValue({
             ...data.record,
           });
           updateRecord.value = data.record;
-
-          // updateSchema([
-          //   {
-          //     field: 'pwd',
-          //     show: !unref(isUpdate),
-          //   },
-          //   {
-          //     field: 'role',
-          //     componentProps: {
-          //       value: ref([29, 3]),
-          //     },
-          //     // defaultValue: [29, 3],
-          //   },
-          // ]);
         }
-
-        // const treeData = await getDeptList();
-        updateSchema([
-          {
-            field: 'pwd',
-            show: !unref(isUpdate),
-          },
-          // {
-          //   field: 'dept',
-          //   componentProps: { treeData },
-          // },
-        ]);
       });
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增用户' : '编辑用户'));
@@ -96,23 +81,21 @@
           const values = await validate();
           setModalProps({ confirmLoading: true });
 
-          const userParam: UserModel = {
+          let userParam: UserModel = {
             ...updateRecord.value,
             ...values,
           };
 
           if (unref(isUpdate)) {
+            userParam.password = undefined; // 更新排除密码
             await updateUser(userParam);
           } else {
+            userParam.password = encryptByMd5(userParam.password!);
             await saveUser(userParam);
           }
 
-          console.log(values);
           closeModal();
-          emit('success', {
-            isUpdate: unref(isUpdate),
-            values: { ...values, userId: unref(updateRecord)?.userId },
-          });
+          emit('success', `用户 [${values.username}] ${unref(isUpdate) ? '编辑' : '新增'}成功!`);
         } finally {
           setModalProps({ confirmLoading: false });
         }

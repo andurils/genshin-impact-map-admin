@@ -156,7 +156,6 @@ export const useUserStore = defineStore({
       } else {
         // 路由鉴权
         const permissionStore = usePermissionStore();
-        console.log('permissionStore', permissionStore);
         if (!permissionStore.isDynamicAddedRoute) {
           // 获取路由配置、生成菜单配置
           const routes = await permissionStore.buildRoutesAction();

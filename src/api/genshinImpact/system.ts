@@ -219,5 +219,21 @@ export function deleteUser(userId: number) {
     },
   );
 }
+
+/**
+ * @description: 获取用户信息
+ */
+export function getUser(userId: number) {
+  return defHttp.get<UserModel>(
+    {
+      url: `/api/user/${userId}`,
+    },
+    {
+      apiUrl: '/genshin-impact',
+      withToken: true,
+    },
+  );
+}
+
 // export const setUserLockStatus = (id: number, status: string) =>
 //   defHttp.post({ url: Api.setRoleStatus, params: { id, status } }, { isTransformResponse: false });

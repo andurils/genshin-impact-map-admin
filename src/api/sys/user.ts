@@ -2,7 +2,7 @@ import { defHttp } from '/@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
 import { ErrorMessageMode } from '/#/axios';
 import qs from 'qs';
-import md5 from 'js-md5';
+import { encryptByMd5 } from '/@/utils/cipher';
 
 enum Api {
   Login = '/api/oauth/token',
@@ -28,7 +28,7 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
       },
       data: qs.stringify({
         username: params.username,
-        password: md5(params.password),
+        password: encryptByMd5(params.password),
       }),
     },
     {

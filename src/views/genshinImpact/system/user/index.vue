@@ -1,8 +1,8 @@
 <template>
-  <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
+  <PageWrapper dense contentFullHeight>
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增账号</a-button>
+        <a-button type="primary" @click="handleCreate">新增用户</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -13,9 +13,15 @@
               onClick: handleEdit.bind(null, record),
             },
             {
+              icon: 'ic:outline-password',
+              tooltip: '密码重置',
+              onClick: handlePasswordRest.bind(null, record),
+            },
+
+            {
               icon: 'ant-design:delete-outlined',
               color: 'error',
-              tooltip: '删除此账号',
+              tooltip: '删除此用户',
               popConfirm: {
                 title: '是否确认删除',
                 confirm: handleDelete.bind(null, record),
@@ -25,7 +31,8 @@
         />
       </template>
     </BasicTable>
-    <UserModal @register="registerModal" @success="handleSuccess" />
+    <UserModal @register="registerUserModal" @success="handleSuccess" />
+    <PasswordResetModal @register="registerPWDModal" @success="handlePasswordRestSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -36,15 +43,18 @@
   import { useModal } from '/@/components/Modal';
   import { useMessage } from '/@/hooks/web/useMessage';
   import UserModal from './UserModal.vue';
+  import PasswordResetModal from './PasswordResetModal.vue';
   import { columns, searchFormSchema } from './user.data';
   // import { useGo } from '/@/hooks/web/usePage';
   import { deleteUser, getUserPageList } from '/@/api/genshinImpact/system';
 
   // const go = useGo();
   const { createMessage } = useMessage();
-  const [registerModal, { openModal }] = useModal();
+  const [registerUserModal, { openModal: openUserModal }] = useModal();
+  const [registerPWDModal, { openModal: openPWDModal }] = useModal();
+
   const searchInfo = reactive<Recordable>({});
-  const [registerTable, { reload, updateTableDataRecord }] = useTable({
+  const [registerTable, { reload }] = useTable({
     title: '用户列表',
     api: getUserPageList,
     rowKey: 'userId',
@@ -71,14 +81,13 @@
   });
 
   function handleCreate() {
-    openModal(true, {
+    openUserModal(true, {
       isUpdate: false,
     });
   }
 
   function handleEdit(record: Recordable) {
-    console.log(record);
-    openModal(true, {
+    openUserModal(true, {
       record,
       isUpdate: true,
     });
@@ -93,23 +102,19 @@
     }
   }
 
-  function handleSuccess({ isUpdate, values }) {
-    if (isUpdate) {
-      // 演示不刷新表格直接更新内部数据。
-      // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.userId, values);
-      console.log(result);
-    } else {
-      reload();
-    }
+  function handleSuccess(msg: string) {
+    createMessage.success(msg);
+    reload();
   }
 
-  // function handleSelect(deptId = '') {
-  //   searchInfo.deptId = deptId;
-  //   reload();
-  // }
+  // 密码重置
+  function handlePasswordRest(record: Recordable) {
+    openPWDModal(true, {
+      record,
+    });
+  }
 
-  // function handleView(record: Recordable) {
-  //   go('/system/account_detail/' + record.id);
-  // }
+  function handlePasswordRestSuccess(msg: string) {
+    createMessage.success(msg);
+  }
 </script>

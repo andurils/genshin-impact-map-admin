@@ -53,9 +53,9 @@ export type UserModel = {
   userId?: number;
   username: string;
   role: number[];
-  password: string;
+  password?: string;
   newpassword1?: string;
-  // giteeLogin?: string;
+  giteeLogin?: string;
   lockFlag: string; // 锁定状态
   deptId?: number; // 部门
   avatar?: string;
@@ -72,6 +72,7 @@ export interface UserListItem {
   delFlag: string; // 删除标记,1:已删除,0:正常
   lockFlag: string; // 锁定标记,0:正常,9:已锁定
   roleList: RoleListItem[];
+  role: number[];
 }
 
 // 角色列表项实体
