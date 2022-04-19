@@ -56,7 +56,7 @@
     canResize: false, // 自适应高度
     // pagination: false, // 开启分页
     showTableSetting: true,
-    bordered: false,
+    bordered: true,
     showIndexColumn: true,
     actionColumn: {
       width: 200,

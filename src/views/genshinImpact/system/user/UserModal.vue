@@ -1,6 +1,16 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
-    <BasicForm @register="registerForm" />
+    <BasicForm @register="registerForm">
+      <template #roleSelect="{ model, field }">
+        <a-select
+          :options="options"
+          mode="multiple"
+          max-tag-count="10"
+          v-model:value="model[field]"
+          :allowClear="false"
+        />
+      </template>
+    </BasicForm>
   </BasicModal>
 </template>
 <script lang="ts">
@@ -8,15 +18,20 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { userFormSchema } from './user.data';
-  import { UserModel } from '/@/api/genshinImpact/model/systemModel';
+  import { RoleListItem, UserModel } from '/@/api/genshinImpact/model/systemModel';
   import { saveUser, updateUser } from '/@/api/genshinImpact/system';
+  import { Select } from 'ant-design-vue';
+  import { getAllRoleList } from '/@/api/genshinImpact/system';
 
   export default defineComponent({
     name: 'UserModal',
-    components: { BasicModal, BasicForm },
+    components: { BasicModal, BasicForm, [Select.name]: Select },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
+      const roleList = ref<RoleListItem[]>([]);
+      const options = ref<Recordable[]>([]); // 角色selectOption 节点
+
       // const rowId = ref('');
       const updateRecord = ref<UserModel>();
 
@@ -34,11 +49,31 @@
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
+        // 手动构造 selectOption 节点
+        roleList.value = (await getAllRoleList()) as any as RoleListItem[];
+        unref(roleList).forEach((item) => {
+          options.value.push({ label: `${item.roleName}`, value: item.roleId });
+        });
+
         if (unref(isUpdate)) {
           setFieldsValue({
             ...data.record,
           });
           updateRecord.value = data.record;
+
+          // updateSchema([
+          //   {
+          //     field: 'pwd',
+          //     show: !unref(isUpdate),
+          //   },
+          //   {
+          //     field: 'role',
+          //     componentProps: {
+          //       value: ref([29, 3]),
+          //     },
+          //     // defaultValue: [29, 3],
+          //   },
+          // ]);
         }
 
         // const treeData = await getDeptList();
@@ -83,7 +118,7 @@
         }
       }
 
-      return { registerModal, registerForm, getTitle, handleSubmit };
+      return { registerModal, registerForm, getTitle, handleSubmit, options };
     },
   });
 </script>

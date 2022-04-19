@@ -6,7 +6,7 @@ import md5 from 'js-md5';
 
 enum Api {
   Login = '/api/oauth/token',
-  Logout = '/logout',
+  // Logout = '/logout',
   GetUserInfo = '/getUserInfo',
   GetPermCode = '/getPermCode',
   TestRetry = '/testRetry',
@@ -18,10 +18,13 @@ enum Api {
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<LoginResultModel>(
     {
-      url: Api.Login + '?grant_type=password',
+      url: Api.Login,
       headers: {
         Authorization: 'Basic YXBwOmFwcA==',
         'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        grant_type: 'password',
       },
       data: qs.stringify({
         username: params.username,
@@ -43,12 +46,15 @@ export function getUserInfo() {
   return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
 }
 
+// export function doLogout() {
+//   return defHttp.get({ url: Api.Logout });
+// }
+
+/**
+ * @description: 扫码登录待实现
+ */
 export function getPermCode() {
   return defHttp.get<string[]>({ url: Api.GetPermCode });
-}
-
-export function doLogout() {
-  return defHttp.get({ url: Api.Logout });
 }
 
 export function testRetry() {
