@@ -5,7 +5,7 @@ import qs from 'qs';
 import { encryptByMd5 } from '/@/utils/cipher';
 
 enum Api {
-  Login = '/api/oauth/token',
+  Login = '/oauth/token',
   // Logout = '/logout',
   GetUserInfo = '/getUserInfo',
   GetPermCode = '/getPermCode',
@@ -34,7 +34,7 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
     {
       errorMessageMode: mode,
       isTransformResponse: false, // 不进行任何处理，直接返回
-      apiUrl: '/genshin-impact',
+      // apiUrl: '/genshin-impact',
     },
   );
 }

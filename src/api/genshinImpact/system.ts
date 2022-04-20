@@ -13,9 +13,14 @@ import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
   // API
-  GetMenuTreeList = '/api/menu/tree',
-  GetAllRoleList = '/api/role/list',
-  GetUserPageList = '/api/user/page',
+  GetMenuTreeList = '/menu/tree',
+  GetAllRoleList = '/role/list',
+  GetUserPageList = '/user/page',
+  ROLE = '/role',
+  MENU = '/menu',
+  MENU_TREE = '/menu/tree',
+  ROLE_MENU = '/role/menu',
+  USER = '/user',
 }
 
 /********************** 角色管理API **********************/
@@ -28,7 +33,7 @@ export const getAllRoleList = () =>
       url: Api.GetAllRoleList,
     },
     {
-      apiUrl: '/genshin-impact',
+      // apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -39,7 +44,7 @@ export const getAllRoleList = () =>
 export function saveRole(params: RoleModel) {
   return defHttp.post<boolean>(
     {
-      url: '/api/role',
+      url: Api.ROLE,
       params,
     },
     {
@@ -55,11 +60,11 @@ export function saveRole(params: RoleModel) {
 export function updateRole(params: RoleModel) {
   return defHttp.put<boolean>(
     {
-      url: '/api/role',
+      url: Api.ROLE,
       params,
     },
     {
-      apiUrl: '/genshin-impact',
+      // apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -71,10 +76,10 @@ export function updateRole(params: RoleModel) {
 export function deleteRole(roleId: number) {
   return defHttp.delete<boolean>(
     {
-      url: `/api/role/${roleId}`,
+      url: `${Api.ROLE}/${roleId}`,
     },
     {
-      apiUrl: '/genshin-impact',
+      // apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -87,11 +92,11 @@ export function deleteRole(roleId: number) {
 export function saveMenu(params: MenuModel) {
   return defHttp.post<boolean>(
     {
-      url: '/api/menu',
+      url: Api.MENU,
       params,
     },
     {
-      apiUrl: '/genshin-impact',
+      // apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -102,11 +107,11 @@ export function saveMenu(params: MenuModel) {
 export function updateMenu(params: MenuModel) {
   return defHttp.put<boolean>(
     {
-      url: '/api/menu',
+      url: Api.MENU,
       params,
     },
     {
-      apiUrl: '/genshin-impact',
+      // apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -117,10 +122,10 @@ export function updateMenu(params: MenuModel) {
 export function deleteMenu(menuId: number) {
   return defHttp.delete<boolean>(
     {
-      url: `/api/menu/${menuId}`,
+      url: `${Api.MENU}/${menuId}`,
     },
     {
-      apiUrl: '/genshin-impact',
+      // apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -130,19 +135,13 @@ export function deleteMenu(menuId: number) {
  * @description: 获取树形菜单
  */
 export const getMenuTreeList = (params?: MenuParams) =>
-  defHttp.get<MenuListGetResultModel>(
-    { url: Api.GetMenuTreeList, params },
-    { apiUrl: '/genshin-impact', withToken: true },
-  );
+  defHttp.get<MenuListGetResultModel>({ url: Api.GetMenuTreeList, params }, { withToken: true });
 
 /**
  * @description: 获取角色菜单
  */
 export const getRoleMenuList = (roleId: number) =>
-  defHttp.get<number[]>(
-    { url: `/api/menu/tree/${roleId}` },
-    { apiUrl: '/genshin-impact', withToken: true },
-  );
+  defHttp.get<number[]>({ url: `${Api.MENU_TREE}/${roleId}` }, { withToken: true });
 
 /**
  * @description: 分配角色菜单
@@ -150,11 +149,10 @@ export const getRoleMenuList = (roleId: number) =>
 export function saveRoleMenus(params: RoleMenuModel) {
   return defHttp.put<boolean>(
     {
-      url: '/api/role/menu',
+      url: Api.ROLE_MENU,
       params,
     },
     {
-      apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -168,7 +166,6 @@ export const getUserPageList = (params: UserParams) =>
   defHttp.get<UserPageListGetResultModel>(
     { url: Api.GetUserPageList, params },
     {
-      apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -179,11 +176,10 @@ export const getUserPageList = (params: UserParams) =>
 export function saveUser(params: UserModel) {
   return defHttp.post<boolean>(
     {
-      url: '/api/user',
+      url: Api.USER,
       params,
     },
     {
-      apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -195,11 +191,10 @@ export function saveUser(params: UserModel) {
 export function updateUser(params: UserModel) {
   return defHttp.put<boolean>(
     {
-      url: '/api/user',
+      url: Api.USER,
       params,
     },
     {
-      apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -211,10 +206,9 @@ export function updateUser(params: UserModel) {
 export function deleteUser(userId: number) {
   return defHttp.delete<boolean>(
     {
-      url: `/api/user/${userId}`,
+      url: `${Api.USER}/${userId}`,
     },
     {
-      apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
@@ -226,14 +220,10 @@ export function deleteUser(userId: number) {
 export function getUser(userId: number) {
   return defHttp.get<UserModel>(
     {
-      url: `/api/user/${userId}`,
+      url: `${Api.USER}/${userId}`,
     },
     {
-      apiUrl: '/genshin-impact',
       withToken: true,
     },
   );
 }
-
-// export const setUserLockStatus = (id: number, status: string) =>
-//   defHttp.post({ url: Api.setRoleStatus, params: { id, status } }, { isTransformResponse: false });
