@@ -5,6 +5,10 @@ export default {
     dropdownItemDoc: '文档',
     dropdownItemLoginOut: '退出系统',
 
+    // user info
+    dropdownItemAccount: '我的账户',
+    dropdownItemProfile: '我的资料',
+
     // tooltip
     tooltipErrorLog: '错误日志',
     tooltipLock: '锁定屏幕',

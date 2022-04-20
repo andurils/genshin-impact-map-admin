@@ -1,5 +1,4 @@
 import type { AppRouteModule } from '/@/router/types';
-
 import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
@@ -9,16 +8,16 @@ const system: AppRouteModule = {
   component: LAYOUT,
   redirect: '/system/account',
   meta: {
-    orderNo: 12,
+    orderNo: 11,
     icon: 'ion:settings-outline',
-    title: t('routes.demo.system.moduleName'),
+    title: t('routes.genshinImpact.system.moduleName'),
   },
   children: [
     {
       path: 'user',
       name: 'UserManagement',
       meta: {
-        title: '用户管理',
+        title: t('routes.genshinImpact.system.user'),
         ignoreKeepAlive: false,
       },
       component: () => import('/@/views/genshinImpact/system/user/index.vue'),
@@ -28,7 +27,7 @@ const system: AppRouteModule = {
     //   name: 'AccountDetail',
     //   meta: {
     //     hideMenu: true,
-    //     title: t('routes.demo.system.account_detail'),
+    //     title: t('routes.genshinImpact.system.account_detail'),
     //     ignoreKeepAlive: true,
     //     showMenu: false,
     //     currentActiveMenu: '/system/account',

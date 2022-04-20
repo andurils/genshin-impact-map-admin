@@ -30,49 +30,14 @@ const charts: AppRouteModule = {
       },
       component: () => import('/@/views/demo/charts/map/Gaode.vue'),
     },
-    {
-      path: 'googleMap',
-      name: 'GoogleMap',
-      meta: {
-        title: t('routes.demo.charts.googleMap'),
-      },
-      component: () => import('/@/views/demo/charts/map/Google.vue'),
-    },
 
     {
-      path: 'echarts',
-      name: 'Echarts',
-      component: getParentLayout('Echarts'),
+      path: 'echarts-map',
+      name: 'EchartsMap',
+      component: () => import('/@/views/demo/charts/Map.vue'),
       meta: {
-        title: 'Echarts',
+        title: 'Echarts Map',
       },
-      redirect: '/charts/echarts/map',
-      children: [
-        {
-          path: 'map',
-          name: 'Map',
-          component: () => import('/@/views/demo/charts/Map.vue'),
-          meta: {
-            title: t('routes.demo.charts.map'),
-          },
-        },
-        {
-          path: 'line',
-          name: 'Line',
-          component: () => import('/@/views/demo/charts/Line.vue'),
-          meta: {
-            title: t('routes.demo.charts.line'),
-          },
-        },
-        {
-          path: 'pie',
-          name: 'Pie',
-          component: () => import('/@/views/demo/charts/Pie.vue'),
-          meta: {
-            title: t('routes.demo.charts.pie'),
-          },
-        },
-      ],
     },
   ],
 };

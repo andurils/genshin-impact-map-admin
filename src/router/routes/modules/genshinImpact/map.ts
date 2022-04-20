@@ -1,7 +1,7 @@
 import type { AppRouteModule } from '/@/router/types';
-
 import { LAYOUT } from '/@/router/constant';
 import { ExceptionEnum } from '/@/enums/exceptionEnum';
+import { t } from '/@/hooks/web/useI18n';
 const ExceptionPage = () => import('/@/views/sys/exception/Exception.vue');
 
 // 地图管理模块菜单
@@ -11,9 +11,9 @@ const map: AppRouteModule = {
   component: LAYOUT,
   redirect: '/map/maintain',
   meta: {
-    orderNo: 13,
-    icon: 'ion:layers-outline',
-    title: '原神地图',
+    orderNo: 12,
+    icon: 'ic:outline-map',
+    title: t('routes.genshinImpact.map.moduleName'),
   },
 
   children: [
@@ -25,7 +25,7 @@ const map: AppRouteModule = {
         status: ExceptionEnum.ERROR,
       },
       meta: {
-        title: '点位维护',
+        title: t('routes.genshinImpact.map.maintain'),
       },
     },
   ],

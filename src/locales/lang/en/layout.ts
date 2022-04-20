@@ -5,6 +5,10 @@ export default {
     dropdownItemDoc: 'Document',
     dropdownItemLoginOut: 'Login Out',
 
+    // user info
+    dropdownItemAccount: 'My account',
+    dropdownItemProfile: 'My profile',
+
     tooltipErrorLog: 'Error log',
     tooltipLock: 'Lock screen',
     tooltipNotify: 'Notification',

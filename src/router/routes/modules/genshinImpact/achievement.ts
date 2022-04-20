@@ -1,6 +1,7 @@
 import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 import { ExceptionEnum } from '/@/enums/exceptionEnum';
+import { t } from '/@/hooks/web/useI18n';
 const ExceptionPage = () => import('/@/views/sys/exception/Exception.vue');
 
 // 成就管理模块菜单
@@ -10,9 +11,9 @@ const achievement: AppRouteModule = {
   component: LAYOUT,
   redirect: '/achievement/maintain',
   meta: {
-    orderNo: 14,
-    icon: 'ion:layers-outline',
-    title: '成就系统',
+    orderNo: 13,
+    icon: 'ion:bookmarks-outline',
+    title: t('routes.genshinImpact.achievement.moduleName'),
   },
 
   children: [
@@ -24,7 +25,7 @@ const achievement: AppRouteModule = {
         status: ExceptionEnum.ERROR,
       },
       meta: {
-        title: '点位维护',
+        title: t('routes.genshinImpact.achievement.maintain'),
       },
     },
   ],

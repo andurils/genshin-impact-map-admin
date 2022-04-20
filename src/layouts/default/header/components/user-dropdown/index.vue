@@ -24,6 +24,19 @@
           :text="t('layout.header.tooltipLock')"
           icon="ion:lock-closed-outline"
         />
+        <MenuDivider />
+        <MenuItem
+          key="account"
+          :text="t('layout.header.dropdownItemAccount')"
+          icon="ion:settings-outline"
+        />
+        <MenuItem
+          key="profile"
+          :text="t('layout.header.dropdownItemProfile')"
+          icon="ion:person-circle-outline"
+        />
+        <MenuDivider />
+
         <MenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
@@ -54,7 +67,7 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'account' | 'profile';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -95,6 +108,14 @@
         openWindow(DOC_URL);
       }
 
+      function openAccount() {
+        console.log('openAccount');
+      }
+
+      function openProfile() {
+        console.log('openProfile');
+      }
+
       function handleMenuClick(e: { key: MenuEvent }) {
         switch (e.key) {
           case 'logout':
@@ -105,6 +126,12 @@
             break;
           case 'lock':
             handleLock();
+            break;
+          case 'account':
+            openAccount();
+            break;
+          case 'profile':
+            openProfile();
             break;
         }
       }

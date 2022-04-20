@@ -67,7 +67,7 @@ const setting: ProjectConfig = {
     useLockPage: true,
     // Whether to show the full screen button
     showFullScreen: true,
-    // Whether to show the document button
+    // Whether to show the document button  header下拉列表是否显示文档按钮
     showDoc: true,
     // Whether to show the notification button
     showNotice: true,

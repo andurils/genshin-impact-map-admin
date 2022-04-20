@@ -141,6 +141,7 @@ export default {
 
     list: '列表页',
     listCard: '卡片列表',
+    basic: '标准列表',
     listBasic: '标准列表',
     listSearch: '搜索列表',
   },

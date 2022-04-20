@@ -10,7 +10,7 @@ const iframe: AppRouteModule = {
   component: LAYOUT,
   redirect: '/frame/doc',
   meta: {
-    orderNo: 15,
+    orderNo: 14,
     icon: 'ion:tv-outline',
     title: t('routes.demo.iframe.frame'),
   },
@@ -39,6 +39,14 @@ const iframe: AppRouteModule = {
       component: IFrame,
       meta: {
         title: '原神Wiki',
+      },
+    },
+    {
+      path: 'https://vvbin.cn/doc-next/',
+      name: 'DocExternal',
+      component: IFrame,
+      meta: {
+        title: 'Vben文档',
       },
     },
   ],
