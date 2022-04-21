@@ -2,12 +2,11 @@ import type { UserInfo } from '/#/store';
 import type { ErrorMessageMode } from '/#/axios';
 import { defineStore } from 'pinia';
 import { store } from '/@/store';
-import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { loginApi } from '/@/api/sys/user';
+import { doLogout, getUserInfo, loginApi } from '/@/api/sys/login';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -20,13 +19,7 @@ import { h } from 'vue';
 interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
-  /**
-   * 用户角色列表
-   *
-   * @type {RoleEnum[]}
-   * @memberof UserState
-   */
-  roleList: RoleEnum[];
+  roleList: number[];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
 }
@@ -58,8 +51,8 @@ export const useUserStore = defineStore({
      *
      * @return {*}  {RoleEnum[]}
      */
-    getRoleList(): RoleEnum[] {
-      return this.roleList.length > 0 ? this.roleList : getAuthCache<RoleEnum[]>(ROLES_KEY);
+    getRoleList(): number[] {
+      return this.roleList.length > 0 ? this.roleList : getAuthCache<number[]>(ROLES_KEY);
     },
     getSessionTimeout(): boolean {
       return !!this.sessionTimeout;
@@ -74,11 +67,11 @@ export const useUserStore = defineStore({
       setAuthCache(TOKEN_KEY, info);
     },
     /**
-     * 设置用户角色列表
+     * 设置用户角色列表 RoleEnum[] 转换为 number[]
      *
-     * @param {RoleEnum[]} roleList
+     * @param {number[]} roleList
      */
-    setRoleList(roleList: RoleEnum[]) {
+    setRoleList(roleList: number[]) {
       this.roleList = roleList;
       setAuthCache(ROLES_KEY, roleList);
     },
@@ -108,31 +101,9 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
-        // console.log('user login ok!', data);
 
-        const { access_token, user_info: userInfo } = data;
+        const { access_token } = data;
         this.setToken(access_token); // save token
-
-        // 获取用户信息
-        const outgoingUserInfo: UserInfo = {
-          userId: userInfo.id,
-          username: userInfo.username,
-          realName: userInfo.username,
-          roles: [],
-          // avatar: '',
-          // desc: undefined,
-          // homePath: undefined,
-        };
-        // TODO 鉴权设置信息
-        // const { roles = [] } = userInfo;
-        // if (isArray(roles)) {
-        //   const roleList = roles.map((item) => item.value) as RoleEnum[];
-        //   this.setRoleList(roleList);
-        // } else {
-        //   userInfo.roles = [];
-        //   this.setRoleList([]);
-        // }
-        this.setUserInfo(outgoingUserInfo);
 
         return this.afterLoginAction(goHome);
       } catch (error) {
@@ -167,25 +138,32 @@ export const useUserStore = defineStore({
         }
         goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
       }
-      return userInfo;
-    },
-    // TODO 根据 token 获取用户信息
-    async getUserInfoAction(): Promise<UserInfo | null> {
-      if (!this.getToken) return null;
-      return this.getUserInfo;
+      console.log('afterLoginAction', userInfo);
+      return userInfo as GetUserInfoModel;
     },
 
     /**
-     * @description: logout
+     * @description: 根据 token 获取用户信息
+     */
+    async getUserInfoAction(): Promise<UserInfo | null> {
+      if (!this.getToken) return null;
+      const data = await getUserInfo();
+
+      const { sysUser: userInfo, permissions = [], roles = [] } = data;
+      userInfo.roles = roles;
+      userInfo.permissions = permissions;
+      // 数据处理
+      userInfo.avatar = undefined; // 使用默认头像
+      userInfo.realName = userInfo.username;
+      this.setRoleList(roles);
+      this.setUserInfo(userInfo);
+      return userInfo;
+    },
+
+    /**
+     * @description: 用户注销
      */
     async logout(goLogin = false) {
-      // if (this.getToken) {
-      //   try {
-      //     await doLogout();
-      //   } catch {
-      //     console.log('注销Token失败');
-      //   }
-      // }
       this.setToken(undefined);
       this.setSessionTimeout(false);
       this.setUserInfo(null);

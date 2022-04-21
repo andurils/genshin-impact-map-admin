@@ -31,13 +31,17 @@ export interface ErrorLogInfo {
 }
 
 export interface UserInfo {
-  userId: string | number;
-  username: string;
+  userId: number; // 用户id
+  username: string; // 用户名
   realName: string;
-  avatar?: string;
+  avatar?: string; // 头像
   desc?: string;
   homePath?: string;
-  roles: RoleInfo[];
+  lockFlag: string; // 锁定标记,0:正常,9:已锁定
+  giteeLogin?: string; // 码云 标识
+  delFlag: string; // 删除标记,1:已删除,0:正常
+  roles: RoleInfo[] | number[]; // 角色
+  permissions: string[]; // 权限标记
 }
 
 export interface BeforeMiniState {

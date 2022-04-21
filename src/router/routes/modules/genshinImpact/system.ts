@@ -59,6 +59,10 @@ const system: AppRouteModule = {
       meta: {
         title: t('routes.demo.system.password'),
         ignoreKeepAlive: true,
+        hideMenu: true,
+        hideBreadcrumb: true,
+        // currentActiveMenu: '/dashboard',
+        // icon: 'bx:bx-home',
       },
       component: () => import('/@/views/genshinImpact/system/password/index.vue'),
     },

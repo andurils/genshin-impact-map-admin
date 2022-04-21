@@ -1,5 +1,7 @@
+import type { UserInfo } from '/#/store';
+
 /**
- * @description: Login interface parameters
+ * @description: 登录方法参数
  */
 export interface LoginParams {
   username: string;
@@ -7,19 +9,21 @@ export interface LoginParams {
   // tenantId: string;
 }
 
-export interface RoleInfo {
-  roleName: string;
-  value: string;
+/**
+ * @description: 登录用户信息
+ */
+export interface LoginUserInfo {
+  sysUser: UserInfo;
+  // 角色
+  roles: number[];
+  // 权限标记
+  permissions: string[];
 }
 
 /**
  * @description: Login interface return value
  */
 export interface LoginResultModel {
-  // userId: string | number;
-  // token: string;
-  // role: RoleInfo;
-
   access_token: string;
   token_type: string;
   refresh_token: string;
@@ -27,44 +31,23 @@ export interface LoginResultModel {
   scope: string;
   license: string;
   active: boolean;
-  user_info: UserInfoModel;
-}
-
-/**
- * @description: 用户信息
- */
-export interface UserInfoModel {
-  id: number;
-  username: string;
-  deptId: number;
-  avatar: string;
-  authorities: Authorities[] | undefined;
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  credentialsNonExpired: boolean;
-  enabled: boolean;
-}
-
-/**
- * @description: 用户授权
- */
-export interface Authorities {
-  authority: string;
 }
 
 /**
  * @description: Get user information return value
  */
 export interface GetUserInfoModel {
-  roles: RoleInfo[];
   // 用户id
-  userId: string | number;
+  userId: number;
   // 用户名
   username: string;
   // 真实名字
-  realName: string;
+  realName?: string;
   // 头像
   avatar?: string;
-  // 介绍
-  desc?: string;
+
+  // 角色
+  roles: number[];
+  // 权限标记
+  permissions: string[];
 }

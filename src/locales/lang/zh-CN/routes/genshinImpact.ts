@@ -14,4 +14,9 @@ export default {
     moduleName: '成就管理',
     maintain: '成就维护',
   },
+  account: {
+    moduleName: '个人中心',
+    accountProfile: '个人资料',
+    accountSetting: '个人设置',
+  },
 };

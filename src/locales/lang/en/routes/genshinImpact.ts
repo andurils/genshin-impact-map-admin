@@ -14,4 +14,9 @@ export default {
     moduleName: 'ACHV management',
     maintain: 'ACHV maintain',
   },
+  account: {
+    moduleName: 'Personal Center',
+    accountProfile: 'Personal Profile',
+    accountSetting: 'Personal Settings',
+  },
 };
